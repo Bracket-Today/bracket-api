@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_24_173614) do
+ActiveRecord::Schema.define(version: 2022_04_24_193747) do
 
   create_table "entities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(version: 2022_04_24_173614) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_entities_on_name", length: 20
     t.index ["path"], name: "index_entities_on_path", length: 20
+  end
+
+  create_table "tournaments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "round_duration", default: 86400, null: false
+    t.datetime "start_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_tournaments_on_name", length: 20
   end
 
 end
