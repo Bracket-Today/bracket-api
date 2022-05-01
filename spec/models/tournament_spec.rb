@@ -19,4 +19,6 @@ RSpec.describe Tournament, type: :model do
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_presence_of :round_duration }
   it { is_expected.to validate_presence_of :start_at }
+
+  it { is_expected.to have_many :competitors }
 end

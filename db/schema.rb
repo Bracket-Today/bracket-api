@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_24_193747) do
+ActiveRecord::Schema.define(version: 2022_05_01_185223) do
+
+  create_table "competitors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "tournament_id", null: false
+    t.bigint "entity_id", null: false
+    t.integer "seed"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["entity_id"], name: "index_competitors_on_entity_id"
+    t.index ["tournament_id"], name: "index_competitors_on_tournament_id"
+  end
 
   create_table "entities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -31,4 +41,6 @@ ActiveRecord::Schema.define(version: 2022_04_24_193747) do
     t.index ["name"], name: "index_tournaments_on_name", length: 20
   end
 
+  add_foreign_key "competitors", "entities"
+  add_foreign_key "competitors", "tournaments", on_delete: :cascade
 end
