@@ -1,4 +1,9 @@
 GEM
+  remote: https://deploy:yQ9ryEUaPKqC@gems.pti-dev.com/
+  specs:
+    pti_base (0.0.12)
+
+GEM
   remote: https://rubygems.org/
   specs:
     actioncable (6.1.5)
@@ -85,6 +90,7 @@ GEM
     formatador (1.1.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    graphql (2.0.7)
     guard (2.18.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -213,9 +219,11 @@ DEPENDENCIES
   byebug
   dotenv-rails
   factory_bot_rails
+  graphql
   guard-rspec
   listen (~> 3.3)
   mysql2 (~> 0.5)
+  pti_base (= 0.0.12)!
   puma (~> 5.0)
   rack-cors
   rails (~> 6.1.4, >= 6.1.4.6)

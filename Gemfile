@@ -36,6 +36,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'arel-helpers'
 gem 'awesome_print'
+gem 'graphql'
 gem 'rack-cors'
 
 group :development, :test do
@@ -47,4 +48,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 5.0.0'
   gem 'factory_bot_rails'
   gem 'shoulda-matchers'
+end
+
+source 'https://deploy:yQ9ryEUaPKqC@gems.pti-dev.com' do
+  gem 'pti_base', '0.0.12'
 end
