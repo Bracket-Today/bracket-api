@@ -5,4 +5,6 @@ class Competitor < ApplicationRecord
 
   belongs_to :entity
   belongs_to :tournament
+
+  delegate :name, to: :entity
 end
