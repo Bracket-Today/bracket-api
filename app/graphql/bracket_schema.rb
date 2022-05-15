@@ -5,7 +5,7 @@ module GraphQL::Schema::Member::HasArguments::ArgumentObjectLoader
   end
 end
 
-class BracketSchemaSchema < GraphQL::Schema
+class BracketSchema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
 
