@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Favorite Programming Language",
+    "prefix": "/programming/language",
+    "entries": [
+      "Javascript",
+      "Java",
+      "Python",
+      "PHP",
+      "Ruby",
+      "Swift",
+      "Lisp",
+      {
+        "name": "C#",
+        "slug": "c-sharp"
+      },
+      "R",
+      "C",
+      {
+        "name": "C++",
+        "slug": "cpp"
+      },
+      "Scala",
+      "Erlang",
+      "Elixir",
+      "Haskell",
+      "Clojure"
+    ]
+  },
+  {
+    "name": "Best Comedy Movie",
+    "prefix": "/film/comedy",
+    "entries": [
+      "Airplane!",
+      "Groundhog Day",
+      "The Jerk",
+      "The Naked Gun",
+      "The Big Lebowski",
+      "Monty Python and the Holy Grail",
+      "Borat",
+      "Anchorman: The Legend of Ron Burgundy",
+      "Shaun of the Dead",
+      "Trading Places",
+      "Bridesmaids",
+      "Balzing Saddles",
+      "Planes, Trains and Automobiles",
+      "Young Frankenstein",
+      "Duck Soup",
+      "¡Three Amigos!"
+    ]
+  },
+  {
+    "name": "Wordle and Friends",
+    "prefix": "games",
+    "entries": [
+      "Wordle",
+      "Quordle",
+      "Globle",
+      "Nerdle"
+    ]
+  }
+]
