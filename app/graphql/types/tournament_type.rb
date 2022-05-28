@@ -6,6 +6,6 @@ module Types
     field :name, String, null: false
     field :round_duration, Int, null: false
     field :start_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :contests, [Types::ContestType], null: false
+    field :rounds, [Types::RoundType], null: false
   end
 end

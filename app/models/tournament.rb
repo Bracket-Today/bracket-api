@@ -8,6 +8,24 @@ class Tournament < ApplicationRecord
 
   validates :name, :round_duration, :start_at, presence: true
 
+  def rounds
+    unique_rounds = self.contests.count(:round)
+
+    retval = Hash.new do |hsh, number|
+      hsh[number] = {
+        number: number,
+        contests: [],
+        multiplier: 2 ** (unique_rounds - number),
+      }
+    end
+
+    self.contests.ordered.each do |contest|
+      retval[contest.round][:contests] << contest
+    end
+
+    retval.values
+  end
+
   # Create all contests (for all rounds) with round 1 competitors based on
   # seeds. Note, upper and lower refer to physical placement on the bracket,
   # so, at least in the first round, upper is always a smaller number than
