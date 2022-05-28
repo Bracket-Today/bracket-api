@@ -29,4 +29,55 @@ RSpec.describe Contest, type: :model do
 
   it { is_expected.to validate_presence_of :round }
   it { is_expected.to validate_presence_of :sort }
+
+  describe '#winner_contest' do
+    let!(:tournament) { FactoryBot.create(:tournament) }
+    let!(:contests) do
+      [[3,0], [1,0], [1,1], [1,3], [1,2], [2,1], [2,0]].map do |round, sort|
+        FactoryBot.create(
+          :contest, tournament: tournament, round: round, sort: sort
+        )
+      end
+    end
+
+    it 'is the contest in which the winner will participate' do
+      expect(contests[1].winner_contest).to eq(contests[6])
+      expect(contests[2].winner_contest).to eq(contests[6])
+      expect(contests[3].winner_contest).to eq(contests[5])
+      expect(contests[4].winner_contest).to eq(contests[5])
+      expect(contests[5].winner_contest).to eq(contests[0])
+      expect(contests[6].winner_contest).to eq(contests[0])
+    end
+
+    context 'final_round' do
+      subject { contests[0].winner_contest }
+
+      it { is_expected.to be(nil) }
+    end
+  end
+
+  describe '#won!' do
+    let!(:tournament) { FactoryBot.create(:tournament) }
+    let!(:contests) do
+      [[3,0], [2,1], [2,0]].map do |round, sort|
+        FactoryBot.create(
+          :contest, tournament: tournament, round: round, sort: sort
+        )
+      end
+    end
+
+    it 'sets winner and next contest' do
+      expect(contests[0].upper).to be(nil)
+      contests[2].won!(contests[2].upper)
+      expect(contests[0].reload.upper).to be(contests[2].upper)
+      expect(contests[2].winner).to eq(contests[2].upper)
+
+      expect(contests[0].lower).to be(nil)
+      contests[1].won!(contests[1].lower)
+      expect(contests[0].reload.lower).to be(contests[1].lower)
+
+      contests[0].won!(contests[1].lower)
+      expect(contests[0].winner).to eq(contests[1].lower)
+    end
+  end
 end
