@@ -27,6 +27,8 @@ RSpec.describe Contest, type: :model do
   it { is_expected.to belong_to(:lower).optional }
   it { is_expected.to belong_to(:winner).optional }
 
+  it { is_expected.to have_many(:votes) }
+
   it { is_expected.to validate_presence_of :round }
   it { is_expected.to validate_presence_of :sort }
 

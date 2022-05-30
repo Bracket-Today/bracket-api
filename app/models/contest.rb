@@ -8,6 +8,8 @@ class Contest < ApplicationRecord
   belongs_to :lower, class_name: 'Competitor', required: false
   belongs_to :winner, class_name: 'Competitor', required: false
 
+  has_many :votes
+
   validates :round, :sort, presence: true
 
   # @return [Contest]

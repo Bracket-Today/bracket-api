@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_30_021828) do
+ActiveRecord::Schema.define(version: 2022_05_30_195152) do
 
   create_table "competitors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "tournament_id", null: false
@@ -63,9 +63,23 @@ ActiveRecord::Schema.define(version: 2022_05_30_021828) do
     t.string "uuid", limit: 36
   end
 
+  create_table "votes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "contest_id", null: false
+    t.bigint "competitor_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["competitor_id"], name: "index_votes_on_competitor_id"
+    t.index ["contest_id"], name: "index_votes_on_contest_id"
+    t.index ["user_id"], name: "index_votes_on_user_id"
+  end
+
   add_foreign_key "competitors", "entities"
   add_foreign_key "competitors", "tournaments", on_delete: :cascade
   add_foreign_key "contests", "competitors", column: "lower_id"
   add_foreign_key "contests", "competitors", column: "upper_id"
   add_foreign_key "contests", "competitors", column: "winner_id"
+  add_foreign_key "votes", "competitors"
+  add_foreign_key "votes", "contests"
+  add_foreign_key "votes", "users"
 end
