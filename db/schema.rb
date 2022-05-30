@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_01_201356) do
+ActiveRecord::Schema.define(version: 2022_05_30_021828) do
 
   create_table "competitors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "tournament_id", null: false
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2022_05_01_201356) do
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid", limit: 36
   end
 
   add_foreign_key "competitors", "entities"
