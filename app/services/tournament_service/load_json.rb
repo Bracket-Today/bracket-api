@@ -12,6 +12,7 @@ module TournamentService
 
     def call
       if @truncate
+        Vote.delete_all
         Contest.delete_all
         Tournament.delete_all
       end
