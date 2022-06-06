@@ -32,6 +32,44 @@ RSpec.describe Contest, type: :model do
   it { is_expected.to validate_presence_of :round }
   it { is_expected.to validate_presence_of :sort }
 
+  describe '#active?' do
+    subject { contest.active? }
+
+    it { is_expected.to be(false) }
+
+    context 'has competitors' do
+      before :each do
+        contest.upper = FactoryBot.create(:competitor)
+        contest.lower = FactoryBot.create(:competitor)
+      end
+
+      context 'no winner' do
+        it { is_expected.to be(true) }
+      end
+
+      context 'has winner' do
+        before(:each) { contest.winner = contest.upper }
+        it { is_expected.to be(false) }
+      end
+    end
+
+    context 'only upper competitor' do
+      before :each do
+        contest.upper = FactoryBot.create(:competitor)
+      end
+
+      it { is_expected.to be(false) }
+    end
+
+    context 'only lower competitor' do
+      before :each do
+        contest.lower = FactoryBot.create(:competitor)
+      end
+
+      it { is_expected.to be(false) }
+    end
+  end
+
   describe '#winner_contest' do
     let!(:tournament) { FactoryBot.create(:tournament) }
     let!(:contests) do

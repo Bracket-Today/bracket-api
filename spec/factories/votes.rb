@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :vote do
     competitor
-    contest
+    contest { association :contest, upper: competitor, lower: competitor }
     user
   end
 end

@@ -7,8 +7,15 @@ class Vote < ApplicationRecord
 
   validates :user_id, uniqueness: { scope: :contest_id }
   validate :competitor_in_contest
+  validate :check_active_contest
 
   private
+
+  def check_active_contest
+    if self.contest && !self.contest.active?
+      errors.add(:contest, 'must be active')
+    end
+  end
 
   def competitor_in_contest
     if self.contest && self.competitor.try(:id)

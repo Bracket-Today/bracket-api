@@ -12,6 +12,14 @@ class Contest < ApplicationRecord
 
   validates :round, :sort, presence: true
 
+  # @return [Boolean]
+  #   True if contest has all competitors and no winner.
+  #
+  # TODO Check if round has a start and/or end time.
+  def active?
+    !!(self.upper && self.lower && !self.winner)
+  end
+
   # @return [Contest]
   #   Get contest in which winner will participate, nil if final round.
   #
