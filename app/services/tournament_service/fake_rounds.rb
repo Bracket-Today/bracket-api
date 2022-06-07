@@ -4,12 +4,14 @@ module TournamentService
   class FakeRounds
     include Service
 
-    def initialize tournament:, override: false
-      @tournament, @override = tournament, override
+    def initialize tournament:, override: false, rounds: nil
+      @tournament, @override, @rounds = tournament, override, rounds
     end
 
     def call
       @tournament.rounds.each do |round|
+        break if @rounds && round[:number] > @rounds
+
         round[:contests].each do |contest|
           contest.reload # rounds may have out-of-date entries
           next if contest.winner && !@override
