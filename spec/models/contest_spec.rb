@@ -96,12 +96,79 @@ RSpec.describe Contest, type: :model do
     end
   end
 
+  describe 'vote counts' do
+    let!(:upper) do
+      FactoryBot.create(:competitor, tournament: contest.tournament, seed: 2)
+    end
+
+    let!(:lower) do
+      FactoryBot.create(:competitor, tournament: contest.tournament, seed: 1)
+    end
+
+    before(:each) do
+      contest.upper = upper
+      contest.lower = lower
+      contest.save!
+    end
+
+    let!(:votes) do
+      [
+        FactoryBot.create(:vote, contest: contest, competitor: upper),
+        FactoryBot.create(:vote, contest: contest, competitor: upper),
+        FactoryBot.create(:vote, contest: contest, competitor: lower),
+        FactoryBot.create(
+          :vote,
+          competitor: upper,
+          contest: FactoryBot.create(:contest, lower: upper, upper: lower)
+        )
+      ]
+    end
+
+    describe '#vote_count' do
+      it 'gets count of votes for competitor' do
+        expect(contest.vote_count(competitor: upper)).to eq(2)
+        expect(contest.vote_count(competitor: lower)).to eq(1)
+      end
+    end
+
+    describe '#upper_vote_count' do
+      subject { contest.upper_vote_count }
+      it { is_expected.to eq(2) }
+    end
+
+    describe '#lower_vote_count' do
+      subject { contest.lower_vote_count }
+      it { is_expected.to eq(1) }
+    end
+
+    describe '#leader' do
+      subject { contest.leader }
+      it { is_expected.to eq(upper) }
+
+      context 'same votes' do
+        before(:each) do
+          FactoryBot.create(:vote, contest: contest, competitor: lower)
+        end
+
+        it { is_expected.to eq(lower) }
+      end
+    end
+  end
+
   describe '#won!' do
     let!(:tournament) { FactoryBot.create(:tournament) }
     let!(:contests) do
       [[3,0], [2,1], [2,0]].map do |round, sort|
         FactoryBot.create(
-          :contest, tournament: tournament, round: round, sort: sort
+          :contest, tournament: tournament, round: round, sort: sort,
+          upper: (
+            2 == round ?
+            FactoryBot.create(:competitor, tournament: tournament) : nil
+          ),
+          lower: (
+            2 == round ?
+            FactoryBot.create(:competitor, tournament: tournament) : nil
+          ),
         )
       end
     end
@@ -109,15 +176,31 @@ RSpec.describe Contest, type: :model do
     it 'sets winner and next contest' do
       expect(contests[0].upper).to be(nil)
       contests[2].won!(contests[2].upper)
-      expect(contests[0].reload.upper).to be(contests[2].upper)
+      expect(contests[0].reload.upper).to eq(contests[2].upper)
       expect(contests[2].winner).to eq(contests[2].upper)
 
       expect(contests[0].lower).to be(nil)
       contests[1].won!(contests[1].lower)
-      expect(contests[0].reload.lower).to be(contests[1].lower)
+      expect(contests[0].reload.lower).to eq(contests[1].lower)
 
       contests[0].won!(contests[1].lower)
       expect(contests[0].winner).to eq(contests[1].lower)
+    end
+
+    context 'winner not given' do
+      before(:each) do
+        FactoryBot.create(
+          :vote, contest: contests[1], competitor: contests[1].lower
+        )
+      end
+
+      it 'sets winner based on leader' do
+        contests[1].won!
+        expect(contests[1].reload.winner).to eq(contests[1].lower)
+
+        contests[2].won!
+        expect(contests[2].reload.winner).to eq(contests[2].upper)
+      end
     end
   end
 end

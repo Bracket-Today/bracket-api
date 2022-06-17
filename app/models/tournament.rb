@@ -26,6 +26,10 @@ class Tournament < ApplicationRecord
     retval.values
   end
 
+  def round number
+    rounds[number - 1]
+  end
+
   # Create all contests (for all rounds) with round 1 competitors based on
   # seeds. Note, upper and lower refer to physical placement on the bracket,
   # so, at least in the first round, upper is always a smaller number than

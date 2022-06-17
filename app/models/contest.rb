@@ -30,10 +30,35 @@ class Contest < ApplicationRecord
     )
   end
 
+  # @param competitor [Competitor]
+  # @return [Integer] Votes for competitor for this Contest.
+  def vote_count competitor:
+    votes.where(competitor_id: competitor.id).count
+  end
+
+  # @return [Integer] Votes for upper competitor for this Contest.
+  def upper_vote_count
+    vote_count(competitor: self.upper)
+  end
+
+  # @return [Integer] Votes for lower competitor for this Contest.
+  def lower_vote_count
+    vote_count(competitor: self.lower)
+  end
+
+  # @return [Competitor] Leader, based on votes, then seed, then id.
+  def leader
+    [upper, lower].compact.sort_by do |competitor|
+      [-vote_count(competitor: competitor), competitor.seed, competitor.id]
+    end.first
+  end
+
   # Set winner and add winner competitor to next contest.
   #
   # @param winner [Competitor]
-  def won! winner
+  def won! winner = nil
+    winner ||= self.leader
+
     self.update! winner: winner
     upper_or_lower = (0 == self.sort % 2) ? 'upper' : 'lower'
     self.winner_contest.try(:update!, upper_or_lower => winner)
