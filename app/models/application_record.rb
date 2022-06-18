@@ -3,5 +3,7 @@
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
+  include ArelHelpers::ArelTable
+
   scope :ordered, -> { order :id }
 end

@@ -3,10 +3,16 @@
 class Tournament < ApplicationRecord
   class ContestsExistError < StandardError; end
 
+  scope :ready_to_activate, -> {
+    where(status: 'Pending').where(Tournament[:start_at].lteq(Time.now))
+  }
+
+  scope :active, -> { where status: 'Active' }
+
   has_many :competitors
   has_many :contests
 
-  validates :name, :round_duration, :start_at, presence: true
+  validates :name, :round_duration, :start_at, :status, presence: true
 
   def rounds
     unique_rounds = self.contests.count(:round)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_30_195152) do
+ActiveRecord::Schema.define(version: 2022_06_17_010332) do
 
   create_table "competitors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "tournament_id", null: false
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2022_05_30_195152) do
     t.datetime "start_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.column "status", "enum('Building','Seeding','Pending','Active','Closed')", default: "Building", null: false
     t.index ["name"], name: "index_tournaments_on_name", length: 20
   end
 

@@ -8,17 +8,45 @@ RSpec.describe Tournament, type: :model do
   it { is_expected.to be_valid }
 
   describe 'scopes' do
-    let!(:tournaments) { FactoryBot.create_list(:tournament, 3) }
+    let!(:tournaments) do
+      [
+        FactoryBot.create(
+          :tournament, status: 'Building', start_at: 2.days.from_now
+        ),
+        FactoryBot.create(
+          :tournament, status: 'Seeding', start_at: 1.day.from_now
+        ),
+        FactoryBot.create(
+          :tournament, status: 'Pending', start_at: 5.minutes.from_now
+        ),
+        FactoryBot.create(
+          :tournament, status: 'Pending', start_at: 1.minute.ago
+        ),
+        FactoryBot.create(:tournament, status: 'Active'),
+        FactoryBot.create(:tournament, status: 'Closed'),
+      ]
+    end
 
     describe '.ordered' do
       subject { Tournament.ordered }
-      it { is_expected.to scope_as(tournaments, [0,1,2]) }
+      it { is_expected.to scope_as(tournaments, [0,1,2,3,4,5]) }
+    end
+
+    describe '.ready_to_activate' do
+      subject { Tournament.ready_to_activate }
+      it { is_expected.to scope_as(tournaments, [3]) }
+    end
+
+    describe '.active' do
+      subject { Tournament.active }
+      it { is_expected.to scope_as(tournaments, [4]) }
     end
   end
 
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_presence_of :round_duration }
   it { is_expected.to validate_presence_of :start_at }
+  it { is_expected.to validate_presence_of :status }
 
   it { is_expected.to have_many :competitors }
   it { is_expected.to have_many :contests }
