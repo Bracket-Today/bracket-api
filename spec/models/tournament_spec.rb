@@ -51,6 +51,31 @@ RSpec.describe Tournament, type: :model do
   it { is_expected.to have_many :competitors }
   it { is_expected.to have_many :contests }
 
+  describe '#current_round_by_time' do
+    it 'gets current round based on start_at and duration' do
+      tournament.start_at = 5.days.from_now
+      expect(tournament.current_round_by_time).to eq(0)
+
+      tournament.start_at = 10.minutes.from_now
+      expect(tournament.current_round_by_time).to eq(0)
+
+      tournament.start_at = Time.now
+      expect(tournament.current_round_by_time).to eq(1)
+
+      tournament.start_at = 5.minutes.ago
+      expect(tournament.current_round_by_time).to eq(1)
+
+      tournament.start_at = 1.day.ago - 5.seconds
+      expect(tournament.current_round_by_time).to eq(2)
+
+      tournament.start_at = 58.hours.ago
+      expect(tournament.current_round_by_time).to eq(3)
+
+      tournament.round_duration = 48.hours
+      expect(tournament.current_round_by_time).to eq(2)
+    end
+  end
+
   describe '#create_contests!' do
     before(:each) { tournament.save! }
 

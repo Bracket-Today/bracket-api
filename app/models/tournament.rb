@@ -14,6 +14,17 @@ class Tournament < ApplicationRecord
 
   validates :name, :round_duration, :start_at, :status, presence: true
 
+  # Get expected current round number based on start_at and duration.
+  #
+  # Note that this # doesn't care if the returned value exceeds the total
+  # rounds because it's not anticipated that this method would be used once
+  # the Tournament is closed.
+  #
+  # @return [Integer]
+  def current_round_by_time
+    [((Time.now - self.start_at) / self.round_duration + 1).floor, 0].max
+  end
+
   def rounds
     unique_rounds = self.contests.count(:round)
 
