@@ -9,8 +9,12 @@ module TournamentService
     end
 
     def call
-      @tournament.round(@round)[:contests].each do |contest|
+      @tournament.contests.where(round: @round).each do |contest|
         contest.won! unless contest.winner
+      end
+
+      if @tournament.contests.where(winner_id: nil).empty?
+        @tournament.update(status: 'Closed')
       end
     end
   end

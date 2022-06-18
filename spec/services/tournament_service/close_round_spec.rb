@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe TournamentService::CloseRound do
   describe '#call' do
     let! :tournament do
-      FactoryBot.create(:tournament)
+      FactoryBot.create(:tournament, status: 'Active')
     end
 
     let! :competitors do
@@ -40,6 +40,20 @@ RSpec.describe TournamentService::CloseRound do
       expect(tournament.contests[4].winner).to eq(tournament.contests[1].upper)
       expect(tournament.contests[5].winner).to eq(tournament.contests[3].upper)
       expect(tournament.contests[6].winner).to be(nil)
+    end
+
+    it 'closes tournament if all contests finished' do
+      TournamentService::CloseRound.call(tournament: tournament, round: 1)
+      tournament.reload
+      expect(tournament.status).to eq('Active')
+
+      TournamentService::CloseRound.call(tournament: tournament, round: 2)
+      tournament.reload
+      expect(tournament.status).to eq('Active')
+
+      TournamentService::CloseRound.call(tournament: tournament, round: 3)
+      tournament.reload
+      expect(tournament.status).to eq('Closed')
     end
   end
 end
