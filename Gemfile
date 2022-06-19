@@ -16,11 +16,6 @@ gem 'puma', '~> 4.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
-group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-end
-
 group :development do
   gem 'listen', '~> 3.3'
 end
@@ -37,6 +32,9 @@ gem 'graphql'
 gem 'rack-cors'
 
 group :development, :test do
+  # debugger
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+
   # .env
   gem 'dotenv-rails'
 
@@ -45,6 +43,13 @@ group :development, :test do
   gem 'rspec-rails', '~> 5.0.0'
   gem 'factory_bot_rails'
   gem 'shoulda-matchers'
+
+  # deploy
+  gem 'capistrano', '~> 3.15.0', require: false
+  gem 'capistrano-clockwork'
+  gem 'capistrano3-delayed-job', '~> 1.0'
+  gem 'capistrano-rails', '~> 1.4', require: false
+  gem 'capistrano3-puma', '~> 4.0.0'
 end
 
 source 'https://deploy:yQ9ryEUaPKqC@gems.pti-dev.com' do

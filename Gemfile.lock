@@ -65,6 +65,8 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
+    airbrussh (1.4.0)
+      sshkit (>= 1.6.1, != 1.7.0)
     arel-helpers (2.14.0)
       activerecord (>= 3.1.0, < 8)
     awesome_print (1.9.2)
@@ -72,6 +74,26 @@ GEM
       msgpack (~> 1.2)
     builder (3.2.4)
     byebug (11.1.3)
+    capistrano (3.15.0)
+      airbrussh (>= 1.0.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (>= 1.9.0)
+    capistrano-bundler (2.1.0)
+      capistrano (~> 3.1)
+    capistrano-clockwork (1.0.1)
+      capistrano (~> 3.5)
+      daemons (~> 1.2)
+    capistrano-rails (1.6.2)
+      capistrano (~> 3.1)
+      capistrano-bundler (>= 1.1, < 3)
+    capistrano3-delayed-job (1.7.6)
+      capistrano (~> 3.0, >= 3.0.0)
+      daemons (~> 1.3)
+    capistrano3-puma (4.0.0)
+      capistrano (~> 3.7)
+      capistrano-bundler
+      puma (~> 4.0)
     clockwork (3.0.0)
       activesupport
       tzinfo
@@ -132,6 +154,9 @@ GEM
     msgpack (1.5.1)
     mysql2 (0.5.3)
     nenv (0.3.0)
+    net-scp (3.0.0)
+      net-ssh (>= 2.6.5, < 7.0.0)
+    net-ssh (6.1.0)
     nio4r (2.5.8)
     nokogiri (1.13.4-x86_64-darwin)
       racc (~> 1.4)
@@ -210,6 +235,9 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    sshkit (1.21.2)
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
     thor (1.2.1)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
@@ -226,6 +254,11 @@ DEPENDENCIES
   awesome_print
   bootsnap (>= 1.4.4)
   byebug
+  capistrano (~> 3.15.0)
+  capistrano-clockwork
+  capistrano-rails (~> 1.4)
+  capistrano3-delayed-job (~> 1.0)
+  capistrano3-puma (~> 4.0.0)
   clockwork
   daemons
   delayed_job_active_record
