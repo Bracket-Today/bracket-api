@@ -30,6 +30,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'arel-helpers'
 gem 'awesome_print'
+gem 'delayed_job_active_record'
 gem 'graphql'
 gem 'rack-cors'
 
