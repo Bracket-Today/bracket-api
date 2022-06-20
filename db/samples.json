@@ -2,6 +2,7 @@
   {
     "name": "Favorite Programming Language",
     "prefix": "/programming/language",
+    "start_at": "2022-06-20T00:00:00-0500",
     "entries": [
       "Javascript",
       "Java",
@@ -29,6 +30,7 @@
   },
   {
     "name": "Best Comedy Movie",
+    "start_at": "2022-06-21T00:00:00-0500",
     "prefix": "/film/comedy",
     "entries": [
       "Airplane!",
@@ -51,12 +53,63 @@
   },
   {
     "name": "Wordle and Friends",
+    "start_at": "2022-06-22T00:00:00-0500",
     "prefix": "games",
     "entries": [
       "Wordle",
       "Quordle",
       "Globle",
-      "Nerdle"
+      "Nerdle",
+      "Heardle",
+      "Binerdle",
+      "Framed",
+      "Waffle"
+    ]
+  },
+  {
+    "name": "Tex-Mex Dish",
+    "start_at": "2022-06-23T00:00:00-0500",
+    "prefix": "food",
+    "entries": [
+      "Tacos",
+      "Huevos Rancheros",
+      "Fajitas",
+      "Carne Guisada",
+      "Burritos",
+      "Enchilidas",
+      "Street Tacos",
+      "Beef Barbacoa",
+      "Chicken Nachos",
+      "Tamales",
+      "Carne Asada",
+      "Queso Burger",
+      "Jalapeño Poppers",
+      "Frito Chili Pie",
+      "Just the Salsa",
+      "Just the Margarita"
+    ]
+  },
+  {
+    "name": "Cities to Visit in Hawaii",
+    "start_at": "2022-06-24T00:00:00-0500",
+    "prefix": "travel/hawaii",
+    "entries": [
+      "Kailua-Kona",
+      "Hilo",
+      "Honolulu",
+      "Lahaina",
+      "Hana",
+      "Lana'i",
+      "Kahului",
+      "Kapaa",
+      "Wailuku",
+      "Waimalu",
+      "Waipahu",
+      "Waimea",
+      "Wailea",
+      "Ewa Beach",
+      "Hanapepe",
+      "Hana"
     ]
   }
 ]
