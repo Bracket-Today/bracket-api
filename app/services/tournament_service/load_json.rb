@@ -20,7 +20,8 @@ module TournamentService
       JSON.load(File.read(@path)).each do |tournament_data|
         tournament = Tournament.create!(
           name: tournament_data['name'],
-          start_at: tournament_data['start_at'] || Time.now
+          status: 'Pending',
+          start_at: tournament_data['start_at'] || Time.now,
         )
 
         tournament_data['entries'].each_with_index do |entity_data, seed|

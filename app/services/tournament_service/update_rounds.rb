@@ -6,15 +6,15 @@ module TournamentService
 
     def call
       Tournament.ready_to_activate.each do |tournament|
-        tournament.create_contests!
+        tournament.create_contests! if tournament.contests.empty?
         tournament.update!(status: 'Active')
       end
 
       Tournament.active.all.each do |tournament|
-        1...(tournament.current_round_by_time).each do |round_number|
+        (1...(tournament.current_round_by_time)).each do |round_number|
           TournamentService::CloseRound.call(
             tournament: tournament,
-            round: round
+            round: round_number,
           )
         end
       end
