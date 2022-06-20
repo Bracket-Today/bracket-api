@@ -14,9 +14,8 @@ class Contest < ApplicationRecord
 
   # @return [Boolean]
   #   True if contest has all competitors and no winner.
-  #
-  # TODO Check if round has a start and/or end time.
   def active?
+    return false unless self.tournament.current_round_by_time == self.round
     !!(self.upper && self.lower && !self.winner)
   end
 

@@ -45,6 +45,16 @@ RSpec.describe Contest, type: :model do
 
       context 'no winner' do
         it { is_expected.to be(true) }
+
+        context 'round less than current_round_by_time' do
+          before(:each) { contest.tournament.start_at = 5.minutes.from_now }
+          it { is_expected.to be(false) }
+        end
+
+        context 'round greater than current_round_by_time' do
+          before(:each) { contest.tournament.start_at = 5.weeks.ago }
+          it { is_expected.to be(false) }
+        end
       end
 
       context 'has winner' do
@@ -189,6 +199,8 @@ RSpec.describe Contest, type: :model do
 
     context 'winner not given' do
       before(:each) do
+        contests[1].tournament.update!(start_at: 25.hours.ago)
+
         FactoryBot.create(
           :vote, contest: contests[1], competitor: contests[1].lower
         )
