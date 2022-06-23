@@ -11,6 +11,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
 
     resource '*',
       headers: :any,
+      expose: ['X-Request-Id'],
       methods: [:post, :options, :head]
   end
 end
