@@ -2,6 +2,7 @@ GEM
   remote: https://deploy:yQ9ryEUaPKqC@gems.pti-dev.com/
   specs:
     pti_base (0.0.12)
+    pti_tasks (0.2.10)
 
 GEM
   remote: https://rubygems.org/
@@ -272,6 +273,7 @@ DEPENDENCIES
   listen (~> 3.3)
   mysql2 (~> 0.5)
   pti_base (= 0.0.12)!
+  pti_tasks (= 0.2.10)!
   puma (~> 4.1)
   rack-cors
   rails (~> 6.1.4, >= 6.1.4.6)

@@ -52,4 +52,5 @@ end
 
 source 'https://deploy:yQ9ryEUaPKqC@gems.pti-dev.com' do
   gem 'pti_base', '0.0.12'
+  gem 'pti_tasks', '0.2.10'
 end
