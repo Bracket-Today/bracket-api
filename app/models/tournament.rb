@@ -43,8 +43,9 @@ class Tournament < ApplicationRecord
     retval.values
   end
 
-  def round number
-    rounds[number - 1]
+  def round number: nil
+    number ||= current_round_by_time
+    rounds[number - 1] || rounds.last
   end
 
   # Create all contests (for all rounds) with round 1 competitors based on
