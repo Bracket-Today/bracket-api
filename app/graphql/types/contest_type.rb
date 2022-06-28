@@ -11,6 +11,8 @@ module Types
     field :winner, Types::CompetitorType, null: true
     field :is_active, GraphQL::Types::Boolean, null: false
     field :current_user_vote, Types::CompetitorType, null: true
+    field :upper_prior_score, [Int], null: true
+    field :lower_prior_score, [Int], null: true
 
     def is_active
       object.active?

@@ -45,6 +45,14 @@ class Contest < ApplicationRecord
     vote_count(competitor: self.lower)
   end
 
+  def upper_prior_score
+    self.upper.try(:winner_score, round: self.round - 1)
+  end
+
+  def lower_prior_score
+    self.lower.try(:winner_score, round: self.round - 1)
+  end
+
   # @return [Competitor] Leader, based on votes, then seed, then id.
   def leader
     [upper, lower].compact.sort_by do |competitor|
