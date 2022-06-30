@@ -11,5 +11,6 @@ module Types
     field :round, Types::RoundType, null: false do
       argument :number, Int, required: false
     end
+    field :winner, Types::CompetitorType, null: true
   end
 end

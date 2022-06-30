@@ -29,10 +29,13 @@ class Tournament < ApplicationRecord
     unique_rounds = self.contests.count(:round)
 
     retval = Hash.new do |hsh, number|
+      end_at = self.start_at + self.round_duration * number
+
       hsh[number] = {
         number: number,
         contests: [],
         multiplier: 2 ** (unique_rounds - number),
+        seconds_remaining: [end_at - Time.now, 0].max,
       }
     end
 
@@ -46,6 +49,10 @@ class Tournament < ApplicationRecord
   def round number: nil
     number ||= current_round_by_time
     rounds[number - 1] || rounds.last
+  end
+
+  def winner
+    contests.order(:round).last.winner
   end
 
   # Create all contests (for all rounds) with round 1 competitors based on
