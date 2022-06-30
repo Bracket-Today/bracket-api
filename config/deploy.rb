@@ -1,7 +1,7 @@
 lock '~> 3.15.0'
 
 set :application, 'bracket-api'
-set :repo_url, 'git@bracket-api-git:jm81/bracket-api'
+set :repo_url, 'git@bracket-api-git:preflighttech/bracket-api'
 
 set :clockwork_file, 'config/clock.rb'
 
