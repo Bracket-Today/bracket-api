@@ -12,5 +12,15 @@ module Types
       argument :number, Int, required: false
     end
     field :winner, Types::CompetitorType, null: true
+    field :voters_count, Int, null: false
+    field :votes_count, Int, null: false
+    field :contests_count, Int, null: false
+    field :current_user_voted_winner_count, Int, null: false
+
+    def current_user_voted_winner_count
+      object.votes.where(user_id: context[:current_user].try(:id)).
+        select { |vote| vote.contest.winner_id == vote.competitor_id }.
+        length
+    end
   end
 end

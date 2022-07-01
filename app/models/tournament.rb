@@ -8,9 +8,19 @@ class Tournament < ApplicationRecord
   }
 
   scope :active, -> { where status: 'Active' }
+  scope :active_and_recent, -> {
+    where(
+      Tournament[:status].eq('Active').or(
+        Tournament[:status].eq('Closed').and(
+          Tournament[:start_at].gteq(10.days.ago)
+        )
+      )
+    )
+  }
 
   has_many :competitors
   has_many :contests
+  has_many :votes, through: :contests
 
   validates :name, :round_duration, :start_at, :status, presence: true
 
@@ -53,6 +63,18 @@ class Tournament < ApplicationRecord
 
   def winner
     contests.order(:round).last.winner
+  end
+
+  def votes_count
+    self.votes.count
+  end
+
+  def voters_count
+    self.votes.group(:user_id).count.keys.compact.length
+  end
+
+  def contests_count
+    self.contests.count
   end
 
   # Create all contests (for all rounds) with round 1 competitors based on

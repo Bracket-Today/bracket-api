@@ -8,7 +8,13 @@ module Types
 
     def tournaments scopes: []
       relation = Tournament.all
-      relation = relation.active if scopes.include?('active')
+
+      if scopes.include?('active')
+        relation = relation.active
+      elsif scopes.include?('activeAndRecent')
+        relation = relation.active_and_recent
+      end
+
       relation
     end
 
