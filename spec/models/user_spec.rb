@@ -7,6 +7,34 @@ RSpec.describe User, type: :model do
 
   it { is_expected.to be_valid }
 
+  describe '#login_code' do
+    subject { user.login_code }
+
+    context 'existing login_code' do
+      before(:each) { user.login_code = 'abc12_' }
+      it { is_expected.to eq('abc12_') }
+    end
+
+    context 'no existing login_code' do
+      before(:each) { user.login_code = nil }
+      it { is_expected.to_not eq('abc12_') }
+      it { is_expected.to be_a(String) }
+    end
+  end
+
+  describe '#generate_login_code' do
+    it 'sets login_code with new code' do
+      user.save!
+      code = user.generate_login_code
+      expect(User.find(user.id).login_code).to eq(code)
+      expect(code).to be_a(String)
+      expect(code.length).to eq(6)
+      expect(code).to_not include('_')
+      expect(code).to_not include('-')
+      expect(code).to_not match(/\s/)
+    end
+  end
+
   describe '.by_uuid' do
     let!(:existing) do
       [

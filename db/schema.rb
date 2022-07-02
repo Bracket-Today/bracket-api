@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_19_021705) do
+ActiveRecord::Schema.define(version: 2022_07_02_171632) do
 
   create_table "competitors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "tournament_id", null: false
@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 2022_06_19_021705) do
   create_table "delayed_jobs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
-    t.text "handler", null: false
-    t.text "last_error"
+    t.text "handler", size: :medium, null: false
+    t.text "last_error", size: :medium
     t.datetime "run_at"
     t.datetime "locked_at"
     t.datetime "failed_at"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2022_06_19_021705) do
   create_table "entities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "path", null: false
-    t.text "url"
+    t.text "url", size: :medium
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_entities_on_name", length: 20
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 2022_06_19_021705) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "uuid", limit: 36
+    t.string "login_code", limit: 12
   end
 
   create_table "votes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
