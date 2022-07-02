@@ -6,7 +6,7 @@ module TournamentService
 
     SAMPLES_PATH = Rails.application.root.join('db', 'samples.json')
 
-    def initialize path: SAMPLES_PATH, truncate: true
+    def initialize path: SAMPLES_PATH, truncate: false
       @path, @truncate = path, truncate
     end
 
