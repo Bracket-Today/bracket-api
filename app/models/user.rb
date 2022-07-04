@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  has_many :votes
+
   def login_code
     super || generate_login_code
   end
