@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :contest do
-    tournament
+    association :tournament, :active
     round { 1 }
     sequence(:sort) { |n| n }
   end

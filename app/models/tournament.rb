@@ -22,7 +22,7 @@ class Tournament < ApplicationRecord
   has_many :contests
   has_many :votes, through: :contests
 
-  validates :name, :round_duration, :start_at, :status, presence: true
+  validates :name, :round_duration, :status, presence: true
 
   # Get expected current round number based on start_at and duration.
   #
