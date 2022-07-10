@@ -4,6 +4,7 @@ module Types
   class UserType < Types::BaseObject
     field :id, ID, null: false
     field :login_code, String, null: false
+    field :tournaments, [Types::TournamentType], null: false
     field :votes_count, Int, null: false
 
     def votes_count
