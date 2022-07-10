@@ -7,6 +7,7 @@ RSpec.describe User, type: :model do
 
   it { is_expected.to be_valid }
 
+  it { is_expected.to have_many(:tournaments) }
   it { is_expected.to have_many(:votes) }
 
   describe '#login_code' do
