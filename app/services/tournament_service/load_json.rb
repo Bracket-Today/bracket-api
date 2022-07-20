@@ -27,7 +27,7 @@ module TournamentService
         tournament_data['entries'].each_with_index do |entity_data, seed|
           if entity_data.is_a?(String)
             name = entity_data
-            slug = entity_data.downcase.gsub(/\W/, '').gsub(/\s+/, '-')
+            slug = entity_data.downcase.gsub(/[^\w\s]/, '').gsub(/\s+/, '-')
           else
             name = entity_data['name']
             slug = entity_data['slug']

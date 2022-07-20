@@ -8,6 +8,15 @@ module Types
       context[:current_user]
     end
 
+    field :entities, [Types::EntityType], null: false do
+      argument :term, String, required: true
+      argument :limit, Int, required: false
+    end
+
+    def entities term:, limit: 100
+      Entity.where(Entity[:name].matches("%#{term}%")).limit(limit)
+    end
+
     field :login_code, Types::LoginCodeType, null: true do
       argument :code, String, required: true
     end
