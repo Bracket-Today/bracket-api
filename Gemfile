@@ -28,6 +28,7 @@ gem 'daemons'
 gem 'delayed_job_active_record'
 gem 'graphql'
 gem 'rack-cors'
+gem 'twitter'
 
 group :development, :test do
   # debugger
