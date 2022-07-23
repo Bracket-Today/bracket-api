@@ -11,7 +11,12 @@ class GraphqlController < ApplicationController
     context = {
       current_user: User.by_uuid(request.headers['HTTP_X_UUID'])
     }
-    result = BracketSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    result = BracketSchema.execute(
+      query,
+      variables: variables,
+      context: context,
+      operation_name: operation_name
+    )
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?
