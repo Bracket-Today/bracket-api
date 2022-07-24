@@ -70,4 +70,8 @@ class Contest < ApplicationRecord
     upper_or_lower = (0 == self.sort % 2) ? 'upper' : 'lower'
     self.winner_contest.try(:update!, upper_or_lower => winner)
   end
+
+  def user_should_vote? user:
+    self.active? && self.votes.where(user: user).empty?
+  end
 end

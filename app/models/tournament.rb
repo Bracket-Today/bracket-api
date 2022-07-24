@@ -26,6 +26,11 @@ class Tournament < ApplicationRecord
 
   validates :name, :round_duration, :status, presence: true
 
+  # @return [Boolean] Is status active?
+  def active?
+    'Active' == self.status
+  end
+
   # Get expected current round number based on start_at and duration.
   #
   # Note that this # doesn't care if the returned value exceeds the total

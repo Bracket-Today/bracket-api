@@ -38,6 +38,115 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#should_vote?' do
+    subject { user.should_vote? }
+
+    let!(:tournaments) do
+      [
+        FactoryBot.create(:tournament, status: 'Active', start_at: 1.hour.ago),
+        FactoryBot.create(:tournament, status: 'Pending'),
+      ]
+    end
+
+    let!(:contests) do
+      [
+        FactoryBot.create(
+          :contest, :with_competitors, tournament: tournaments.first, round: 1
+        ),
+        FactoryBot.create(
+          :contest, :with_competitors, tournament: tournaments.first, round: 2
+        ),
+        FactoryBot.create(
+          :contest, :with_competitors, tournament: tournaments.last, round: 1
+        ),
+      ]
+    end
+
+    def vote! contest
+      Vote.create!(
+        contest: contests[0],
+        competitor: contests[0].upper,
+        user: user
+      )
+    end
+
+    it { is_expected.to be(true) }
+
+    context 'all active contests voted' do
+      before(:each) { vote! contests[0] }
+      it { is_expected.to be(false) }
+    end
+
+    context 'contest specified' do
+      subject { user.should_vote? contest: contests[0] }
+
+      context 'contest is active' do
+        context 'has not voted' do
+          it { is_expected.to be(true) }
+        end
+
+        context 'has voted' do
+          before(:each) { vote! contests[0] }
+          it { is_expected.to be(false) }
+        end
+      end
+
+      context 'contest is not active' do
+        subject { user.should_vote? contest: contests[1] }
+        it { is_expected.to be(false) }
+      end
+    end
+
+    context 'tournament specified' do
+      subject { user.should_vote? tournament: tournaments[0] }
+
+      context 'trournament is active' do
+        context 'has not voted' do
+          it { is_expected.to be(true) }
+        end
+
+        context 'has voted' do
+          before(:each) { vote! contests[0] }
+          it { is_expected.to be(false) }
+        end
+
+        context 'no active contests' do
+          before(:each) { contests[0].update!(winner: contests[0].upper) }
+          it { is_expected.to be(false) }
+        end
+      end
+
+      context 'tournament is not active' do
+        before(:each) { tournaments[0].update!(status: 'Pending') }
+        it { is_expected.to be(false) }
+      end
+    end
+  end
+
+  describe '#next_tournament_to_vote' do
+    subject { user.next_tournament_to_vote }
+
+    let!(:tournament) do
+      FactoryBot.create(:tournament, status: 'Active', start_at: 1.hour.ago)
+    end
+
+    let!(:contest) do
+      FactoryBot.create(
+        :contest, :with_competitors, tournament: tournament, round: 1
+      )
+    end
+
+    it { is_expected.to eq(tournament) }
+
+    context 'no tournaments where user should vote' do
+      before(:each) do
+        Vote.create!(contest: contest, competitor: contest.upper, user: user)
+      end
+
+      it { is_expected.to be(nil) }
+    end
+  end
+
   describe '.by_uuid' do
     let!(:existing) do
       [

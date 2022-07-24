@@ -29,6 +29,38 @@ class User < ApplicationRecord
     code
   end
 
+  # Determine whether the user should vote in a given context, meaning that
+  # there is a contest within the contest on which this user can vote but has
+  # not. If given no arguments, checks against all contests in all active
+  # tournaments.
+  #
+  # @param tournament [Tournament]
+  #   A Tournament to check (ignored if contest is specified.
+  # @param contest [Contest]
+  #   A specific Contest to check.
+  # @return [Boolean]
+  def should_vote? tournament: nil, contest: nil
+    if contest
+      contest.active? && contest.votes.where(user: self).empty?
+    elsif tournament
+      tournament.active? && tournament.contests.any? do |contest|
+        self.should_vote?(contest: contest)
+      end
+    else
+      Tournament.active.any? do |tournament|
+        self.should_vote? tournament: tournament
+      end
+    end
+  end
+
+  # @return [Tournament, nil]
+  #   Tournament, if any, with open contest(s) where user has not voted.
+  def next_tournament_to_vote
+    Tournament.active.detect do |tournament|
+      self.should_vote? tournament: tournament
+    end
+  end
+
   def self.by_uuid uuid
     if uuid.present?
       User.where(uuid: uuid).first_or_create!
