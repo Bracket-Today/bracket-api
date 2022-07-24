@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AdminGraphqlController < GraphqqlController
+class AdminGraphqlController < GraphqlController
   def execute
     variables = prepare_variables(params[:variables])
     query = params[:query]
