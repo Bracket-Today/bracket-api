@@ -32,7 +32,11 @@ module Types
     def tournaments scopes: []
       relation = Tournament.all
 
-      if scopes.include?('active')
+      if scopes.include?('votable')
+        relation = relation.active.select do |tournament|
+          context[:current_user].should_vote? tournament: tournament
+        end
+      elsif scopes.include?('active')
         relation = relation.active
       elsif scopes.include?('activeAndRecent')
         relation = relation.active_and_recent
