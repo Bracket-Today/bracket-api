@@ -12,10 +12,10 @@ class Tournament < ApplicationRecord
     where(
       Tournament[:status].eq('Active').or(
         Tournament[:status].eq('Closed').and(
-          Tournament[:start_at].gteq(10.days.ago)
+          Tournament[:start_at].gteq(15.days.ago)
         )
       )
-    )
+    ).order(id: :desc)
   }
 
   belongs_to :owner, class_name: 'User', required: false
