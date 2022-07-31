@@ -12,4 +12,8 @@ module Clockwork
   every 10.minutes, 'UpdateTournamentsJob' do
     UpdateTournamentsJob.perform_later
   end
+
+  every 1.day, 'CheckFeaturedScheduleJob', at: '20:00' do
+    CheckFeaturedScheduleJob.perform_later
+  end
 end
