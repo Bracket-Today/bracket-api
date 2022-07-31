@@ -20,7 +20,7 @@ RSpec.describe Tournament, type: :model do
           :tournament, status: 'Pending', start_at: 5.minutes.from_now
         ),
         FactoryBot.create(
-          :tournament, status: 'Pending', start_at: 1.minute.ago
+          :tournament, status: 'Pending', start_at: 1.minute.ago, featured: true
         ),
         FactoryBot.create(:tournament, status: 'Active'),
         FactoryBot.create(:tournament, status: 'Closed'),
@@ -40,6 +40,11 @@ RSpec.describe Tournament, type: :model do
     describe '.active' do
       subject { Tournament.active }
       it { is_expected.to scope_as(tournaments, [4]) }
+    end
+
+    describe '.featured' do
+      subject { Tournament.featured }
+      it { is_expected.to scope_as(tournaments, [3]) }
     end
   end
 

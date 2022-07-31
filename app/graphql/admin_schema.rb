@@ -1,5 +1,12 @@
 # frozen_string_literal: true
 
+module GraphQL::Schema::Member::HasArguments::ArgumentObjectLoader
+  def object_from_id type, id, context
+    type_name = type.name.split('::')[-1].sub(/Type\Z/, '')
+    Object.const_get(type_name).find_by_id(id)
+  end
+end
+
 class AdminSchema < GraphQL::Schema
   mutation(Types::AdminMutationType)
   query(Types::AdminQueryType)

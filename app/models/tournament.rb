@@ -18,6 +18,8 @@ class Tournament < ApplicationRecord
     ).order(id: :desc)
   }
 
+  scope :featured, -> { where featured: true }
+
   belongs_to :owner, class_name: 'User', required: false
 
   has_many :competitors
