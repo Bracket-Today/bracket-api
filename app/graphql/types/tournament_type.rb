@@ -34,5 +34,9 @@ module Types
     def current_user_next_tournament
       context[:current_user].next_tournament_to_vote
     end
+
+    def competitors
+      object.competitors.ordered
+    end
   end
 end
