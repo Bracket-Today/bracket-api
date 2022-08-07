@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Tournament < ApplicationRecord
+  include HasShortCode
+
   class ContestsExistError < StandardError; end
 
   scope :ready_to_activate, -> {
@@ -31,6 +33,11 @@ class Tournament < ApplicationRecord
   # @return [Boolean] Is status active?
   def active?
     'Active' == self.status
+  end
+
+  # @return [String] Path to bracket.
+  def bracket_path
+    "/bracket/#{short_code}/#{slug}"
   end
 
   # Get expected current round number based on start_at and duration.

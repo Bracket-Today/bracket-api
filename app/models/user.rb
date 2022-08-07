@@ -11,14 +11,9 @@ class User < ApplicationRecord
   # Generate a unique 6-character code and save as login_code.
   # @return [String]
   def generate_login_code
-    code = nil
-    while code.nil?
-      try_code = SecureRandom.urlsafe_base64[0..5]
-      next if try_code =~ /\W/
-      next if try_code =~ /_/
-      next if User.find_by_login_code(try_code)
-      code = try_code
-    end
+    code = ShortCodeService::Suggest.call(
+      check_method: User.method(:find_by_login_code)
+    )
 
     if self.persisted?
       update_column(:login_code, code)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_30_174648) do
+ActiveRecord::Schema.define(version: 2022_08_06_224828) do
 
   create_table "competitors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "tournament_id", null: false
@@ -61,6 +61,15 @@ ActiveRecord::Schema.define(version: 2022_07_30_174648) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_entities_on_name", length: 20
     t.index ["path"], name: "index_entities_on_path", length: 20
+  end
+
+  create_table "short_codes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "code", limit: 6, null: false
+    t.column "resource_type", "enum('Tournament','Entity','User','Competitor')", limit: ["Tournament", "Entity", "User", "Competitor"], null: false
+    t.bigint "resource_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["resource_type", "resource_id"], name: "index_short_codes_on_resource_type_and_resource_id"
   end
 
   create_table "tournaments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

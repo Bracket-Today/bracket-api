@@ -56,6 +56,68 @@ RSpec.describe Tournament, type: :model do
 
   it { is_expected.to have_many :competitors }
   it { is_expected.to have_many :contests }
+  it { is_expected.to have_many :short_codes }
+
+  describe '#short_code' do
+    before(:each) { tournament.save! }
+    subject { tournament.short_code }
+
+    context 'existing short_code' do
+      before(:each) do
+        FactoryBot.create(:short_code, resource: tournament, code: 'abc12-')
+      end
+
+      it { is_expected.to eq('abc12-') }
+    end
+
+    context 'no existing short_code' do
+      it { is_expected.to_not eq('abc12-') }
+      it { is_expected.to be_a(String) }
+    end
+  end
+
+  describe '#short_path' do
+    before(:each) { tournament.save! }
+    subject { tournament.short_path }
+
+    before(:each) do
+      FactoryBot.create(:short_code, resource: tournament, code: 'abc12-')
+    end
+
+    it { is_expected.to eq('/~/abc12-') }
+  end
+
+  describe '#full_path' do
+    before(:each) do
+      tournament.name = 'Test 123'
+      tournament.save!
+    end
+
+    subject { tournament.full_path }
+
+    before(:each) do
+      tournament.save
+      FactoryBot.create(:short_code, resource: tournament, code: 'abc13-')
+    end
+
+    it { is_expected.to eq('/tournaments/abc13-/test-123') }
+  end
+
+  describe '#bracket_path' do
+    before(:each) do
+      tournament.name = 'Test 123'
+      tournament.save!
+    end
+
+    subject { tournament.bracket_path }
+
+    before(:each) do
+      tournament.save
+      FactoryBot.create(:short_code, resource: tournament, code: 'abc13-')
+    end
+
+    it { is_expected.to eq('/bracket/abc13-/test-123') }
+  end
 
   describe '#current_round_by_time' do
     it 'gets current round based on start_at and duration' do
