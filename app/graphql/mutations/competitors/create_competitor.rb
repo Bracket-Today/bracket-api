@@ -17,7 +17,10 @@ module Mutations
           entity.save!
         end
 
-        create_resource :competitor, tournament.competitors.new(entity: entity)
+        competitor = tournament.competitors.new(entity: entity)
+        competitor.seed = tournament.competitors.count + 1
+
+        create_resource :competitor, competitor
       end
     end
   end
