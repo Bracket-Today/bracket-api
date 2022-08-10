@@ -141,6 +141,9 @@ RSpec.describe Tournament, type: :model do
 
       tournament.round_duration = 48.hours
       expect(tournament.current_round_by_time).to eq(2)
+
+      tournament.start_at = nil
+      expect(tournament.current_round_by_time).to eq(0)
     end
   end
 

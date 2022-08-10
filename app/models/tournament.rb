@@ -48,7 +48,11 @@ class Tournament < ApplicationRecord
   #
   # @return [Integer]
   def current_round_by_time
-    [((Time.now - self.start_at) / self.round_duration + 1).floor, 0].max
+    if self.start_at
+      [((Time.now - self.start_at) / self.round_duration + 1).floor, 0].max
+    else
+      0
+    end
   end
 
   def rounds
@@ -78,7 +82,7 @@ class Tournament < ApplicationRecord
   end
 
   def winner
-    contests.order(:round).last.winner
+    contests.order(:round).last.try(:winner)
   end
 
   def votes_count
