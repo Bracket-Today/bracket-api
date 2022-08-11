@@ -56,7 +56,7 @@ class Tournament < ApplicationRecord
   end
 
   def rounds
-    unique_rounds = self.contests.group.count(:round).length
+    unique_rounds = self.contests.group(:round).count.length
 
     retval = Hash.new do |hsh, number|
       end_at = self.start_at + self.round_duration * number
