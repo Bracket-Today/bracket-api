@@ -14,7 +14,7 @@ module Mutations
         vote = contest.votes.where(user_id: context[:current_user].id).
           first_or_initialize
         vote.competitor = competitor
-        vote.save!
+        vote.save # This could fail due to rapid double-click and can be ignored
 
         { contest: contest }
       end
