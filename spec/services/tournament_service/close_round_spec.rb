@@ -55,5 +55,17 @@ RSpec.describe TournamentService::CloseRound do
       tournament.reload
       expect(tournament.status).to eq('Closed')
     end
+
+    it 'sends twitter update' do
+      expected_tweet =
+        "The winner of the #{tournament.name} bracket is " +
+        "#{tournament.competitors.first.entity.name}. " +
+        "https://bracket.today#{tournament.bracket_path}"
+
+      expect(TwitterService::Post).to receive(:call).with(expected_tweet)
+      TournamentService::CloseRound.call(tournament: tournament, round: 1)
+      TournamentService::CloseRound.call(tournament: tournament, round: 2)
+      TournamentService::CloseRound.call(tournament: tournament, round: 3)
+    end
   end
 end

@@ -45,12 +45,12 @@ module Types
       relation
     end
 
-    field :tournament, Types::TournamentType, null: false do
+    field :tournament, Types::TournamentType, null: true do
       argument :id, ID, required: true
     end
 
     def tournament id:
-      Tournament.find(id)
+      ShortCode.resource(id, type: 'Tournament') || Tournament.find_by_id(id)
     end
   end
 end

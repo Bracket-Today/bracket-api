@@ -1,7 +1,13 @@
 module GraphQL::Schema::Member::HasArguments::ArgumentObjectLoader
+  SHORT_CODE_TYPES = []
+
   def object_from_id type, id, context
     type_name = type.name.split('::')[-1].sub(/Type\Z/, '')
-    Object.const_get(type_name).find_by_id(id)
+    if SHORT_CODE_TYPES.include?(type_name)
+      ShortCode.resource(id, type: type_name)
+    else
+      Object.const_get(type_name).find_by_id(id)
+    end
   end
 end
 

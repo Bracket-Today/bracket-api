@@ -3,6 +3,8 @@
 module Types
   class TournamentType < Types::BaseObject
     field :id, ID, null: false
+    field :bracket_path, String, null: false
+    field :full_path, String, null: false
     field :name, String, null: false
     field :status, String, null: false
     field :featured, GraphQL::Types::Boolean, null: false
