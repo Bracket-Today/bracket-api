@@ -7,9 +7,9 @@ module Types
     field :entity, Types::EntityType, null: false
     field :seed, Int, null: true
 
-    field :votes, String, null: true
+    field :vote_string, String, null: true
 
-    def votes
+    def vote_string
       Rails.logger.info("!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!")
       Rails.logger.info("inside votes array")
       vote_array = []
