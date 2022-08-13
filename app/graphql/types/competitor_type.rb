@@ -17,7 +17,13 @@ module Types
         Rails.logger.info(c.inspect)
         vote_array << "Round #{c.round}: #{object.votes.where(contest_id: c.id).count}"
       end
-      vote_array.join(" | ")
+      Rails.logger.info(vote_array)
+      if vote_array.length == 1
+        retval = "#{vote_array[0]}"
+      else
+        retval = vote_array.join(" | ")
+      end
+      retval
     end
 
   end
