@@ -19,6 +19,7 @@ module Mutations
         result = destroy_resource :competitor, competitor
 
         entity.destroy if entity.competitors.empty?
+        competitor.tournament.reseed!
 
         result
       end

@@ -147,6 +147,27 @@ RSpec.describe Tournament, type: :model do
     end
   end
 
+  describe '#reseed!' do
+    let!(:competitors) do
+      tournament.save!
+
+      [
+        FactoryBot.create(:competitor, tournament: tournament, seed: 2),
+        FactoryBot.create(:competitor, tournament: tournament, seed: nil),
+        FactoryBot.create(:competitor, tournament: tournament, seed: 3),
+        FactoryBot.create(:competitor, tournament: tournament, seed: 3),
+      ]
+    end
+
+    it 'ensures seeds are 1..competitors.length' do
+      tournament.reseed!
+      expect(Competitor.find(competitors[0].id).seed).to eq(1)
+      expect(Competitor.find(competitors[1].id).seed).to eq(4)
+      expect(Competitor.find(competitors[2].id).seed).to eq(2)
+      expect(Competitor.find(competitors[3].id).seed).to eq(3)
+    end
+  end
+
   describe '#create_contests!' do
     before(:each) { tournament.save! }
 

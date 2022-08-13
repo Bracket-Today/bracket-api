@@ -20,6 +20,8 @@ class Tournament < ApplicationRecord
     ).order(id: :desc)
   }
 
+  scope :seeds_required, -> { where status: ['Pending', 'Active', 'Closed'] }
+
   scope :featured, -> { where featured: true }
 
   belongs_to :owner, class_name: 'User', required: false
@@ -95,6 +97,21 @@ class Tournament < ApplicationRecord
 
   def contests_count
     self.contests.count
+  end
+
+
+  # Ensure competitor seeds are 1..competitors.length. Orders competitors and
+  # applies new seeds based on order. Intended to be called when tournament
+  # activated.
+  def reseed!
+    seed = 1
+    (
+      self.competitors.where.not(seed: nil).ordered +
+      self.competitors.where(seed: nil).ordered
+    ).each do |competitor|
+      competitor.update(seed: seed)
+      seed += 1
+    end
   end
 
   # Create all contests (for all rounds) with round 1 competitors based on

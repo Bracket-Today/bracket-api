@@ -6,6 +6,7 @@ module TournamentService
 
     def call
       Tournament.ready_to_activate.each do |tournament|
+        tournament.reseed!
         tournament.create_contests! if tournament.contests.empty?
         tournament.update!(status: 'Active')
 
