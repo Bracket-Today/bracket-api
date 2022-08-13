@@ -13,6 +13,10 @@ module Clockwork
     UpdateTournamentsJob.perform_later
   end
 
+  every 1.hour, 'DataCheckJob', at: '**:15' do
+    DataCheckJob.perform_later
+  end
+
   every 1.day, 'CheckFeaturedScheduleJob', at: '20:00' do
     CheckFeaturedScheduleJob.perform_later
   end
