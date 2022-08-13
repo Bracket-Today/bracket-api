@@ -2,10 +2,15 @@
 
 module Types
   class AdminQueryType < Types::BaseObject
-    field :tournaments, [Types::TournamentType], null: false
+    field :tournaments, [Types::TournamentType], null: false do
+      argument :statuses, [String], required: false
+    end
 
-    def tournaments
-      Tournament.all
+    def tournaments statuses: nil
+      relation = Tournament.all
+      if statuses.present?
+        relation = relation.where(status: statuses)
+      end
     end
 
     field :tournament, Types::TournamentType, null: true do
