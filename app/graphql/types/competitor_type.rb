@@ -15,7 +15,6 @@ module Types
       vote_array = []
       object.tournament.contests.each do |c|
         Rails.logger.info(c.inspect)
-        Rails.logger.info("Round #{c.round}: #{object.votes.where(contest_id: c.id).count}")
         vote_array << "Round #{c.round}: #{object.votes.where(contest_id: c.id).count}"
       end
       vote_array.join(" | ")
