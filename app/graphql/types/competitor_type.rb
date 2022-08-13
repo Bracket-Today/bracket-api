@@ -14,7 +14,8 @@ module Types
       object.tournament.contests.each do |c|
         vote_array << "Round #{c.round}: #{object.votes.where(contest_id: c.id).count}"
       end
-      vote_array
+      vote_array.join(" | ")
     end
+
   end
 end
