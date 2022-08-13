@@ -17,7 +17,7 @@ class Tournament < ApplicationRecord
           Tournament[:start_at].gteq(15.days.ago)
         )
       )
-    ).order(id: :desc)
+    ).order(start_at: :desc, id: :desc)
   }
 
   scope :seeds_required, -> { where status: ['Pending', 'Active', 'Closed'] }
