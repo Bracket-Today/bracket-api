@@ -10,20 +10,11 @@ module Types
     field :vote_string, String, null: true
 
     def vote_string
-      Rails.logger.info("!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!")
-      Rails.logger.info("inside votes array")
       vote_array = []
-      object.tournament.contests.each do |c|
-        Rails.logger.info(c.inspect)
-        vote_array << "Round #{c.round}: #{object.votes.where(contest_id: c.id).count}"
+      object.tournament.contests.pluck(:round).order("round ASC").uniq.each do |c|
+        vote_array << "Round #{c}: #{object.votes.where(contest_id: object.tournament.contests.where(round: c)).count}"
       end
-      Rails.logger.info(vote_array)
-      if vote_array.length == 1
-        retval = "#{vote_array[0]}"
-      else
-        retval = vote_array.join(" | ")
-      end
-      retval
+      vote_array.join(" | ")
     end
 
   end
