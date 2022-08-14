@@ -29,6 +29,8 @@ module Types
       argument :scopes, [String], required: false
     end
 
+    field :votes, [Types::VoteType], nbull: false
+
     def tournaments scopes: []
       relation = Tournament.all
 
