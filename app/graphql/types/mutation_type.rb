@@ -9,6 +9,8 @@ module Types
       mutation: Mutations::Tournaments::CreateTournament
     field :update_tournament_seeds,
       mutation: Mutations::Tournaments::UpdateTournamentSeeds
+    field :random_tournament_seeds,
+      mutation: Mutations::Tournaments::RandomTournamentSeeds
 
     field :submit_vote, mutation: Mutations::Contests::SubmitVote
   end
