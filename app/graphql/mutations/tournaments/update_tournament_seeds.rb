@@ -11,14 +11,7 @@ module Mutations
       field :errors, [Types::UserError], null: false
 
       def resolve tournament:, competitor_ids:
-        if ['Active', 'Closed'].include?(tournament.status)
-          return {
-            tournament: tournament,
-            errors: [
-              { message: "Tournament is #{tournament.status}" }
-            ]
-          }
-        end
+        restrict_tournament_status! tournament
 
         Competitor.transaction do
           competitor_ids.each_with_index do |competitor_id, index|

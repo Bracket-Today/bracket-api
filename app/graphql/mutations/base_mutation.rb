@@ -64,5 +64,17 @@ module Mutations
 
       retval
     end
+
+    # Restrict actions based on tournament status.
+    #
+    # @raise [GraphQL::ExecutionError]
+    def restrict_tournament_status! tournament, statuses: ['Active', 'Closed']
+      if statuses.include? tournament.status
+        raise GraphQL::ExecutionError.new(
+          "Action restricted: Tournament status is #{tournament.status}",
+          extensions: { code: 'TOURNAMENT_STATUS' }
+        )
+      end
+    end
   end
 end

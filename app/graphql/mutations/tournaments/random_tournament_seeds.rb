@@ -10,14 +10,7 @@ module Mutations
       field :errors, [Types::UserError], null: false
 
       def resolve tournament:
-        if ['Active', 'Closed'].include?(tournament.status)
-          return {
-            tournament: tournament,
-            errors: [
-              { message: "Tournament is #{tournament.status}" }
-            ]
-          }
-        end
+        restrict_tournament_status! tournament
 
         Competitor.transaction do
           tournament.competitors.shuffle.each_with_index do |competitor, index|

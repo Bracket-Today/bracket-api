@@ -10,6 +10,8 @@ module Mutations
       field :errors, [Types::UserError], null: false
 
       def resolve tournament:
+        restrict_tournament_status! tournament
+
         attributes = {
           status: 'Pending',
           featured: true,

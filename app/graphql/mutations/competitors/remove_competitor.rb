@@ -15,6 +15,8 @@ module Mutations
       field :errors, [Types::UserError], null: false
 
       def resolve competitor:
+        restrict_tournament_status! competitor.tournament
+
         entity = competitor.entity
         result = destroy_resource :competitor, competitor
 

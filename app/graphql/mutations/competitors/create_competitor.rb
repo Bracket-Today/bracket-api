@@ -11,6 +11,8 @@ module Mutations
       field :errors, [Types::UserError], null: false
 
       def resolve tournament:, entity: nil, name: nil
+        restrict_tournament_status! tournament
+
         if entity.nil?
           entity = Entity.new(name: name)
           entity.set_path
