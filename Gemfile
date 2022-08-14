@@ -8,7 +8,7 @@ gem 'rails', '~> 6.1.4', '>= 6.1.4.6'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5'
 # Use Puma as the app server
-gem 'puma', '~> 4.1'
+gem 'puma', '4.3.6'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
