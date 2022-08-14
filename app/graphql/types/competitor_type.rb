@@ -11,8 +11,8 @@ module Types
 
     def vote_string
       vote_array = []
-      object.tournament.contests.pluck(:round).order("round ASC").uniq.each do |c|
-        vote_array << "Round #{c}: #{object.votes.where(contest_id: object.tournament.contests.where(round: c)).count}"
+      object.tournament.contests.order("round ASC").pluck(:round).uniq.each do |c|
+        vote_array << "Round #{c}: #{object.votes.where(contest_id: object.tournament.contests.where(round: c).pluck(:id)).count}"
       end
       vote_array.join(" | ")
     end
