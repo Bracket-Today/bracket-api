@@ -11,6 +11,8 @@ module Types
       mutation: Mutations::Tournaments::UpdateTournamentSeeds
     field :random_tournament_seeds,
       mutation: Mutations::Tournaments::RandomTournamentSeeds
+    field :update_tournament_visibility,
+      mutation: Mutations::Tournaments::UpdateTournamentVisibility
 
     field :submit_vote, mutation: Mutations::Contests::SubmitVote
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_06_224828) do
+ActiveRecord::Schema.define(version: 2022_08_14_010310) do
 
   create_table "competitors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "tournament_id", null: false
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 2022_08_06_224828) do
     t.index ["path"], name: "index_entities_on_path", length: 20
   end
 
-  create_table "short_codes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "short_codes", charset: "latin1", force: :cascade do |t|
     t.string "code", limit: 6, null: false
     t.column "resource_type", "enum('Tournament','Entity','User','Competitor')", limit: ["Tournament", "Entity", "User", "Competitor"], null: false
     t.bigint "resource_id", null: false
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 2022_08_06_224828) do
     t.column "status", "enum('Building','Seeding','Pending','Active','Closed')", limit: ["Building", "Seeding", "Pending", "Active", "Closed"], default: "Building", null: false
     t.bigint "owner_id"
     t.boolean "featured", default: false, null: false
+    t.column "visibility", "enum('Can Feature','Public','Private')", limit: ["Can Feature", "Public", "Private"], default: "Can Feature", null: false
     t.index ["name"], name: "index_tournaments_on_name", length: 20
     t.index ["owner_id"], name: "index_tournaments_on_owner_id"
   end

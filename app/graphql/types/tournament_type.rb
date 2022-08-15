@@ -8,6 +8,7 @@ module Types
     field :name, String, null: false
     field :status, String, null: false
     field :featured, GraphQL::Types::Boolean, null: false
+    field :visibility, String, null: false
     field :round_duration, Int, null: false
     field :start_at, GraphQL::Types::ISO8601DateTime, null: true
     field :competitors, [Types::CompetitorType], null: false
