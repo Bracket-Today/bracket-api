@@ -11,6 +11,7 @@ module Types
       if statuses.present?
         relation = relation.where(status: statuses)
       end
+      relation
     end
 
     field :tournament, Types::TournamentType, null: true do
