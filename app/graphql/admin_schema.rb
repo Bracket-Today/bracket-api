@@ -19,15 +19,6 @@ class AdminSchema < GraphQL::Schema
     )
   end
 
-  rescue_from StandardError do |exception, obj, args, ctx|
-    PtiIssues.handle_exception(
-      exception: exception,
-      request: ctx[:request],
-    )
-
-    raise
-  end
-
   def self.unauthorized_object(error)
     raise GraphQL::ExecutionError,
       "An object of type #{error.type.graphql_name} was hidden due to permissions"

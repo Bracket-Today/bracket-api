@@ -18,7 +18,7 @@ class ApplicationController < ActionController::API
   # Just re-raise exceptions included in IGNORE_EXCEPTIONS if in production.
   #
   # @param exception [Exception]
-  def exception_note(exception)
+  def exception_note exception
     if IGNORE_EXCEPTIONS.include?(exception.class) && !Rails.env.development?
       raise
     else
