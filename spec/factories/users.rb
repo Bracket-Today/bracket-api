@@ -2,5 +2,6 @@
 
 FactoryBot.define do
   factory :user do
+    sequence(:uid) { |n| n.to_s }
   end
 end

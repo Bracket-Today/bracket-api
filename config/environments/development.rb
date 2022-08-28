@@ -37,6 +37,9 @@ Rails.application.configure do
 
   config.action_mailer.smtp_settings = Rails.application.credentials.smtp
 
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3008 }
+  config.web_url = 'http://localhost:3008'
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

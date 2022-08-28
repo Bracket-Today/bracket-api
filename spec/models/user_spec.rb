@@ -7,6 +7,24 @@ RSpec.describe User, type: :model do
 
   it { is_expected.to be_valid }
 
+  describe 'scopes' do
+    let! :users do
+      [
+        FactoryBot.create(
+          :user, provider: 'email',
+          email: 'test@example.com', password: 'Tester123'
+        ),
+        FactoryBot.create(:user, provider: 'uuid'),
+        FactoryBot.create(:user),
+      ]
+    end
+
+    describe '.uuid' do
+      subject { User.uuid.ordered }
+      it { is_expected.to scope_as(users, [1,2]) }
+    end
+  end
+
   it { is_expected.to have_many(:tournaments) }
   it { is_expected.to have_many(:votes) }
 
@@ -150,8 +168,8 @@ RSpec.describe User, type: :model do
   describe '.by_uuid' do
     let!(:existing) do
       [
-        FactoryBot.create(:user, uuid: 'A'),
-        FactoryBot.create(:user, uuid: 'B'),
+        FactoryBot.create(:user, uid: 'A'),
+        FactoryBot.create(:user, uid: 'B'),
       ]
     end
 

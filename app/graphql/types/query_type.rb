@@ -2,7 +2,9 @@
 
 module Types
   class QueryType < Types::BaseObject
-    field :current_user, Types::UserType, null: false
+    field_class GraphqlDevise::Types::BaseField
+
+    field :current_user, Types::UserType, null: true
 
     def current_user
       context[:current_user]
@@ -22,7 +24,7 @@ module Types
     end
 
     def login_code code:
-      User.find_by_login_code(code)
+      User.uuid.find_by_login_code(code)
     end
 
     field :tournaments, [Types::TournamentType], null: false do

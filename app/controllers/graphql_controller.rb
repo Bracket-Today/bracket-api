@@ -8,9 +8,16 @@ class GraphqlController < ApplicationController
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
-    context = {
-      current_user: User.by_uuid(request.headers['HTTP_X_UUID'])
-    }
+
+    devise_context = gql_devise_context(User)
+
+    context = devise_context.merge({
+      current_user: (
+        devise_context[:current_resource] ||
+        User.by_uuid(request.headers['HTTP_X_UUID'])
+      )
+    })
+
     result = BracketSchema.execute(
       query,
       variables: variables,

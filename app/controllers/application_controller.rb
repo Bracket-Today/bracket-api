@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
+  include GraphqlDevise::SetUserByToken
+
   unless Rails.env.test?
     rescue_from Exception, with: :exception_note
   end

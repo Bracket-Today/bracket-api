@@ -1,11 +1,22 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  devise :database_authenticatable, :registerable,
+    :recoverable, :rememberable, :trackable,
+    :confirmable, :validatable
+  include GraphqlDevise::Authenticatable
+
+  scope :uuid, -> { where provider: 'uuid' }
+
   has_many :tournaments, foreign_key: 'owner_id'
   has_many :votes
 
   def login_code
-    super || generate_login_code
+    if confirmed?
+      nil
+    else
+      super || generate_login_code
+    end
   end
 
   # Generate a unique 6-character code and save as login_code.
@@ -58,7 +69,7 @@ class User < ApplicationRecord
 
   def self.by_uuid uuid
     if uuid.present?
-      User.where(uuid: uuid).first_or_create!
+      User.uuid.where(uid: uuid).first_or_create!
     else
       nil
     end

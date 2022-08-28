@@ -27,6 +27,7 @@ gem 'clockwork'
 gem 'daemons'
 gem 'delayed_job_active_record'
 gem 'graphql'
+gem 'graphql_devise'
 gem 'rack-cors'
 gem 'twitter'
 

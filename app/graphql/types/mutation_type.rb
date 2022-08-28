@@ -1,5 +1,7 @@
 module Types
   class MutationType < Types::BaseObject
+    field_class GraphqlDevise::Types::BaseField
+
     field :create_competitor,
       mutation: Mutations::Competitors::CreateCompetitor
     field :remove_competitor,
