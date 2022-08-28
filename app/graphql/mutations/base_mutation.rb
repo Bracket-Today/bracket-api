@@ -65,6 +65,10 @@ module Mutations
       retval
     end
 
+    def current_user
+      context[:current_user]
+    end
+
     # Restrict actions based on tournament status.
     #
     # @raise [GraphQL::ExecutionError]

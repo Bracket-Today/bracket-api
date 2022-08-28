@@ -17,5 +17,7 @@ module Types
       mutation: Mutations::Tournaments::UpdateTournamentVisibility
 
     field :submit_vote, mutation: Mutations::Contests::SubmitVote
+
+    field :register_user, mutation: Mutations::Users::RegisterUser
   end
 end
