@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Preflight
-  ENV_SUFFIX =  Rails.env.development? ? 'dev' : Rail.env
+  ENV_SUFFIX =  Rails.env.development? ? 'dev' : Rails.env
   EMAIL_SUFFIX = 'bracket.api.' + ENV_SUFFIX
   DEVELOPERS = [
     'jared.morgan',
