@@ -1,6 +1,5 @@
 class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[6.1]
   def change
-=begin
     rename_column :users, :uuid, :uid
     change_column :users, :uid, :string, limit: 100
 
@@ -45,7 +44,6 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[6.1]
       ## Tokens
       t.text :tokens
     end
-=end
 
     add_index :users, :email,                unique: true
     add_index :users, [:uid, :provider],     unique: true
