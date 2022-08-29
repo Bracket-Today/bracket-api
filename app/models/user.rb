@@ -11,6 +11,12 @@ class User < ApplicationRecord
   has_many :tournaments, foreign_key: 'owner_id'
   has_many :votes
 
+  def after_confirmation
+    if 'uuid' == provider
+      update_columns provider: 'email', uid: self.email
+    end
+  end
+
   def login_code
     if confirmed?
       nil
