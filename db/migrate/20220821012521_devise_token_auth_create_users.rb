@@ -1,5 +1,6 @@
 class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[6.1]
   def change
+=begin
     rename_column :users, :uuid, :uid
     change_column :users, :uid, :string, limit: 100
 
@@ -12,7 +13,7 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[6.1]
       t.string :encrypted_password, null: false, default: ''
 
       ## Recoverable
-      t.string   :reset_password_token
+      t.string   :reset_password_token, limit: 50
       t.datetime :reset_password_sent_at
       t.boolean  :allow_password_change, default: false
 
@@ -27,7 +28,7 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[6.1]
       t.string :last_sign_in_ip
 
       ## Confirmable
-      t.string   :confirmation_token
+      t.string   :confirmation_token, limit: 50
       t.datetime :confirmed_at
       t.datetime :confirmation_sent_at
       t.string   :unconfirmed_email # Only if using reconfirmable
@@ -38,12 +39,13 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[6.1]
       # t.datetime :locked_at
 
       ## User Info
-      t.string :username
-      t.string :email
+      t.string :username, limit: 16
+      t.string :email, limit: 100
 
       ## Tokens
       t.text :tokens
     end
+=end
 
     add_index :users, :email,                unique: true
     add_index :users, [:uid, :provider],     unique: true
