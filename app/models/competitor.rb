@@ -9,6 +9,8 @@ class Competitor < ApplicationRecord
 
   delegate :name, to: :entity
 
+  after_destroy :destroy_empty_entity
+
   def winner_score round:
     contest = self.tournament.contests.
       find_by(round: round, winner_id: self.id)
@@ -20,5 +22,15 @@ class Competitor < ApplicationRecord
     else
       [contest.lower_vote_count, contest.upper_vote_count]
     end
+  end
+
+  private
+
+  # Called after destroy. If the entity has no competitors, destroy the  entity.
+  def destroy_empty_entity
+    Rails.logger.info 'here'
+    Rails.logger.info self.entity.competitors.empty?
+
+    self.entity.destroy if self.entity.competitors.empty?
   end
 end

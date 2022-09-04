@@ -54,7 +54,25 @@ RSpec.describe Tournament, type: :model do
 
   it { is_expected.to belong_to(:owner).class_name('User').optional }
 
-  it { is_expected.to have_many :competitors }
+  describe '#competitors' do
+    it { is_expected.to have_many :competitors }
+
+    it 'destroys competitors and any entities with no other competitors' do
+      tournament.save!
+      competitors =
+        FactoryBot.create_list :competitor, 2, tournament: tournament
+
+      entities = competitors.map(&:entity)
+      FactoryBot.create :competitor, entity: entities[0]
+
+      expect { tournament.destroy }.to change { Entity.count }.by(-1)
+      expect(Competitor.find_by_id(competitors[0].id)).to be(nil)
+      expect(Competitor.find_by_id(competitors[1].id)).to be(nil)
+      expect(Entity.find_by_id(entities[0].id)).to_not be(nil)
+      expect(Entity.find_by_id(entities[1].id)).to be(nil)
+    end
+  end
+
   it { is_expected.to have_many :contests }
   it { is_expected.to have_many :short_codes }
 

@@ -17,12 +17,8 @@ module Mutations
       def resolve competitor:
         restrict_tournament_status! competitor.tournament
 
-        entity = competitor.entity
         result = destroy_resource :competitor, competitor
-
-        entity.destroy if entity.competitors.empty?
         competitor.tournament.reseed!
-
         result
       end
     end
