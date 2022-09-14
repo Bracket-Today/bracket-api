@@ -75,7 +75,11 @@ class User < ApplicationRecord
 
   def self.by_uuid uuid
     if uuid.present?
-      User.uuid.where(uid: uuid).first_or_create!
+      begin
+        User.uuid.where(uid: uuid).first_or_create!
+      rescue ActiveRecord::RecordNotUnique
+        User.uuid.find_by(uid: uuid)
+      end
     else
       nil
     end
