@@ -21,5 +21,6 @@ module Types
     field :submit_vote, mutation: Mutations::Contests::SubmitVote
 
     field :register_user, mutation: Mutations::Users::RegisterUser
+    field :update_current_user, mutation: Mutations::Users::UpdateCurrentUser
   end
 end

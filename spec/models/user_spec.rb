@@ -28,6 +28,25 @@ RSpec.describe User, type: :model do
   it { is_expected.to have_many(:tournaments) }
   it { is_expected.to have_many(:votes) }
 
+  describe '#username' do
+    it 'allows only letters, numbers and underscore, 4 to 15 characters' do
+      user.username = nil
+      expect(user.valid?).to be(true)
+      user.username = ''
+      expect(user.valid?).to be(true)
+      user.username = 'abc'
+      expect(user.valid?).to be(false)
+      user.username = 'abcdefghijklmnop'
+      expect(user.valid?).to be(false)
+      user.username = 'abcdefghijklmno'
+      expect(user.valid?).to be(true)
+      user.username = 'abcdefghijklm23'
+      expect(user.valid?).to be(true)
+      user.username = 'abcdefghijklm_3'
+      expect(user.valid?).to be(true)
+    end
+  end
+
   describe '#login_code' do
     subject { user.login_code }
 
