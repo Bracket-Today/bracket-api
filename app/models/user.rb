@@ -11,7 +11,8 @@ class User < ApplicationRecord
   has_many :tournaments, foreign_key: 'owner_id'
   has_many :votes
 
-  validates :username, format: /\A\w{4,15}\Z/, allow_blank: true
+  validates :username, format: /\A\w{4,15}\Z/, uniqueness: true,
+    allow_blank: true
 
   def after_confirmation
     if 'uuid' == provider

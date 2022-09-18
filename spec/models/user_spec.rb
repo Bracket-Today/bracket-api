@@ -45,6 +45,9 @@ RSpec.describe User, type: :model do
       user.username = 'abcdefghijklm_3'
       expect(user.valid?).to be(true)
     end
+
+    it { is_expected.
+         to validate_uniqueness_of(:username).case_insensitive.allow_blank }
   end
 
   describe '#login_code' do
