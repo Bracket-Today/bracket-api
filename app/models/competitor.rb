@@ -24,13 +24,17 @@ class Competitor < ApplicationRecord
     end
   end
 
+  # @return [Boolean]
+  #   Is the competitor's entity shared with any other competitor? If so,
+  #   special considerations may be needed when updating entity attributes.
+  def shared_entity?
+    self.entity.competitors.where.not(id: self.id).any?
+  end
+
   private
 
   # Called after destroy. If the entity has no competitors, destroy the  entity.
   def destroy_empty_entity
-    Rails.logger.info 'here'
-    Rails.logger.info self.entity.competitors.empty?
-
     self.entity.destroy if self.entity.competitors.empty?
   end
 end

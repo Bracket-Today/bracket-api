@@ -6,6 +6,8 @@ module Types
       mutation: Mutations::Competitors::CreateCompetitor
     field :remove_competitor,
       mutation: Mutations::Competitors::RemoveCompetitor
+    field :update_competitor,
+      mutation: Mutations::Competitors::UpdateCompetitor
 
     field :create_tournament,
       mutation: Mutations::Tournaments::CreateTournament

@@ -25,6 +25,26 @@ RSpec.describe Competitor, type: :model do
   it { is_expected.to belong_to(:entity) }
   it { is_expected.to belong_to(:tournament) }
 
+  describe '#shared_entity?' do
+    subject { competitor.shared_entity? }
+
+    before(:each) { competitor.save! }
+
+    context 'no other competitors belong to entity' do
+      before(:each) { FactoryBot.create(:competitor) }
+
+      it { is_expected.to be(false) }
+    end
+
+    context 'other competitors belong to entity' do
+      before :each do
+        FactoryBot.create(:competitor, entity: competitor.entity)
+      end
+
+      it { is_expected.to be(true) }
+    end
+  end
+
   describe 'destroy_empty_entity (called after destroy)' do
     before(:each) { competitor.save! }
 
