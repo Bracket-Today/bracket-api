@@ -247,21 +247,26 @@ RSpec.describe Tournament, type: :model do
 
       it 'creates contests, including a play-in round' do
         expected = [
-          [0, 0, 'g', 'z'],
-          [0, 1, 'h', 'y'],
-          [0, 2, 'd', 'x'],
           [1, 0, 'a', nil],
-          [1, 1, 'c', 'b'],
-          [1, 2, 'e', nil],
-          [1, 3, 'f', nil],
-          [2, 0, nil, nil],
-          [2, 1, nil, nil],
+          [1, 1, 'd', 'x'],
+          [1, 2, 'b', nil],
+          [1, 3, 'c', nil],
+          [1, 4, 'g', 'z'],
+          [1, 5, 'e', nil],
+          [1, 6, 'h', 'y'],
+          [1, 7, 'f', nil],
+          [2, 0, 'a', nil],
+          [2, 1, 'b', 'c'],
+          [2, 2, nil, 'e'],
+          [2, 3, nil, 'f'],
           [3, 0, nil, nil],
+          [3, 1, nil, nil],
+          [4, 0, nil, nil],
         ]
 
         run
 
-        expect(tournament.contests.count).to eq(10)
+        expect(tournament.contests.count).to eq(15)
         expect(contest_data).to eq(expected)
       end
 
@@ -275,17 +280,18 @@ RSpec.describe Tournament, type: :model do
 
         it 'creates contests, including a play-in round' do
           expected = [
-            [0, 0, 'f', 'h'],
-            [0, 1, 'e', 'g'],
-            [0, 2, 'c', 'b'],
             [1, 0, 'a', nil],
-            [1, 1, nil, nil],
-            [2, 0, nil, nil],
+            [1, 1, 'c', 'b'],
+            [1, 2, 'e', 'g'],
+            [1, 3, 'f', 'h'],
+            [2, 0, 'a', nil],
+            [2, 1, nil, nil],
+            [3, 0, nil, nil],
           ]
 
           run
 
-          expect(tournament.contests.count).to eq(6)
+          expect(tournament.contests.count).to eq(7)
           expect(contest_data).to eq(expected)
         end
       end

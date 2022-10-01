@@ -125,24 +125,9 @@ class Tournament < ApplicationRecord
 
     seeded_competitors = self.competitors.ordered
 
-    _fraction, exponent = Math.frexp(seeded_competitors.length)
-    full_rounds = exponent - 1
-
+    _fraction, exponent = Math.frexp(seeded_competitors.length - 1)
+    full_rounds = exponent
     full_round_count = 2 ** full_rounds
-    extra_contests = seeded_competitors.count - full_round_count
-
-    # Partial round
-    extra_contests.times do |contest_num|
-      upper_index = full_round_count - (extra_contests - contest_num)
-      lower_index = full_round_count + (extra_contests - contest_num) - 1
-
-      self.contests.create!(
-        round: 0,
-        sort: contest_num,
-        upper: seeded_competitors[upper_index],
-        lower: seeded_competitors[lower_index],
-      )
-    end
 
     Tournament.round_indexes(full_rounds).each_with_index do |indexes, sort|
       contest = self.contests.new(
@@ -150,11 +135,11 @@ class Tournament < ApplicationRecord
         sort: sort,
       )
 
-      if indexes[0] < full_round_count - extra_contests
+      if indexes[0] < full_round_count
         contest.upper = seeded_competitors[indexes[0]]
       end
 
-      if indexes[1] < full_round_count - extra_contests
+      if indexes[1] < full_round_count
         contest.lower = seeded_competitors[indexes[1]]
       end
 
@@ -165,6 +150,10 @@ class Tournament < ApplicationRecord
       (2 ** (full_rounds - round)).times do |sort|
         self.contests.create!(round: round, sort: sort)
       end
+    end
+
+    self.contests.where(round: 1).each do |contest|
+      contest.won! if contest.lower.nil? && contest.upper
     end
   end
 
