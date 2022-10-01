@@ -15,7 +15,7 @@ class Competitor < ApplicationRecord
     contest = self.tournament.contests.
       find_by(round: round, winner_id: self.id)
 
-    if contest.nil?
+    if contest.nil? || contest.lower.nil?
       nil
     elsif contest.upper == self
       [contest.upper_vote_count, contest.lower_vote_count]
