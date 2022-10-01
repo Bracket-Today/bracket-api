@@ -7,6 +7,7 @@ module Types
     field :full_path, String, null: false
     field :name, String, null: false
     field :status, String, null: false
+    field :current_round_by_time, Int, null: false
     field :featured, GraphQL::Types::Boolean, null: false
     field :visibility, String, null: false
     field :round_duration, Int, null: false
@@ -16,6 +17,7 @@ module Types
     field :round, Types::RoundType, null: true do
       argument :number, Int, required: false
     end
+    field :summary_contests, [Types::ContestType], null: false
     field :winner, Types::CompetitorType, null: true
     field :voters_count, Int, null: false
     field :votes_count, Int, null: false

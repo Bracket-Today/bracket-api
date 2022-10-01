@@ -138,6 +138,14 @@ RSpec.describe Tournament, type: :model do
   end
 
   describe '#current_round_by_time' do
+    before(:each) do
+      tournament.save!
+
+      3.times do |i|
+        FactoryBot.create(:contest, tournament: tournament, round: i + 1)
+      end
+    end
+
     it 'gets current round based on start_at and duration' do
       tournament.start_at = 5.days.from_now
       expect(tournament.current_round_by_time).to eq(0)
@@ -159,6 +167,9 @@ RSpec.describe Tournament, type: :model do
 
       tournament.round_duration = 48.hours
       expect(tournament.current_round_by_time).to eq(2)
+
+      tournament.start_at = 58.days.ago
+      expect(tournament.current_round_by_time).to eq(3)
 
       tournament.start_at = nil
       expect(tournament.current_round_by_time).to eq(0)

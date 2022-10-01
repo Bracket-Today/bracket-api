@@ -41,6 +41,13 @@ RSpec.describe Contest, type: :model do
       before :each do
         contest.upper = FactoryBot.create(:competitor)
         contest.lower = FactoryBot.create(:competitor)
+
+        # Ensure there are rounds
+        2.times do |i|
+          FactoryBot.create(
+            :contest, tournament: contest.tournament, round: i + 1
+          )
+        end
       end
 
       context 'no winner' do

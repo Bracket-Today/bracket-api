@@ -44,14 +44,13 @@ class Tournament < ApplicationRecord
 
   # Get expected current round number based on start_at and duration.
   #
-  # Note that this # doesn't care if the returned value exceeds the total
-  # rounds because it's not anticipated that this method would be used once
-  # the Tournament is closed.
-  #
   # @return [Integer]
   def current_round_by_time
     if self.start_at
-      [((Time.now - self.start_at) / self.round_duration + 1).floor, 0].max
+      [
+        [((Time.now - self.start_at) / self.round_duration + 1).floor, 0].max,
+        self.contests.maximum(:round).to_i
+      ].min
     else
       0
     end
@@ -155,6 +154,12 @@ class Tournament < ApplicationRecord
     self.contests.where(round: 1).each do |contest|
       contest.won! if contest.lower.nil? && contest.upper
     end
+  end
+
+  def summary_contests
+    self.contests.where(round: current_round_by_time).
+      where.not(Contest[:lower_id].eq(nil)).
+      limit(2)
   end
 
   def self.round_indexes total_rounds
