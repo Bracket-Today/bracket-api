@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_21_012521) do
+ActiveRecord::Schema.define(version: 2022_10_02_201819) do
+
+  create_table "announcements", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "subject", null: false
+    t.text "details"
+    t.string "link_text"
+    t.string "url"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.boolean "always_show", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["start_at", "end_at"], name: "index_announcements_on_start_at_and_end_at"
+  end
 
   create_table "competitors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "tournament_id", null: false
@@ -93,7 +106,7 @@ ActiveRecord::Schema.define(version: 2022_08_21_012521) do
     t.string "login_code", limit: 12
     t.column "provider", "enum('uuid','email')", limit: ["uuid", "email"], default: "uuid", null: false
     t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
+    t.string "reset_password_token", limit: 100
     t.datetime "reset_password_sent_at"
     t.boolean "allow_password_change", default: false
     t.datetime "remember_created_at"
@@ -102,12 +115,12 @@ ActiveRecord::Schema.define(version: 2022_08_21_012521) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.string "confirmation_token"
+    t.string "confirmation_token", limit: 100
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.string "username"
-    t.string "email"
+    t.string "username", limit: 20
+    t.string "email", limit: 100
     t.text "tokens"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true

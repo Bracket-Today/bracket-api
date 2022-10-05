@@ -10,6 +10,12 @@ module Types
       context[:current_user]
     end
 
+    field :announcements, [Types::AnnouncementType], null: false
+
+    def announcements
+      Announcement.display_subset
+    end
+
     field :entities, [Types::EntityType], null: false do
       argument :term, String, required: true
       argument :limit, Int, required: false
