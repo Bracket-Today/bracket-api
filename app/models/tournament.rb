@@ -45,11 +45,11 @@ class Tournament < ApplicationRecord
   # Get expected current round number based on start_at and duration.
   #
   # @return [Integer]
-  def current_round_by_time
+  def current_round_by_time ignore_max: false
     if self.start_at
       [
         [((Time.now - self.start_at) / self.round_duration + 1).floor, 0].max,
-        self.contests.maximum(:round).to_i
+        ignore_max ? (1.0 / 0) : self.contests.maximum(:round).to_i
       ].min
     else
       0

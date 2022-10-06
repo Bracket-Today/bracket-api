@@ -18,7 +18,8 @@ module TournamentService
       end
 
       Tournament.active.all.each do |tournament|
-        (1...(tournament.current_round_by_time)).each do |round_number|
+        current_round = tournament.current_round_by_time(ignore_max: true)
+        (1...current_round).each do |round_number|
           TournamentService::CloseRound.call(
             tournament: tournament,
             round: round_number,
