@@ -18,6 +18,10 @@ module Types
       object.active?
     end
 
+    def id
+      object.id || object.upper.id
+    end
+
     def current_user_vote
       object.votes.find_by(user_id: context[:current_user].id).try(:competitor)
     end

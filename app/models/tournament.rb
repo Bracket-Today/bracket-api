@@ -122,10 +122,30 @@ class Tournament < ApplicationRecord
   def create_contests!
     raise(ContestsExistError, self.id) if self.contests.any?
 
+    first_round_contests = first_round_preview
+    first_round_contests.each(&:save!)
+    _fraction, full_rounds = Math.frexp(first_round_contests.length)
+
+    2.upto(full_rounds) do |round|
+      (2 ** (full_rounds - round)).times do |sort|
+        self.contests.create!(round: round, sort: sort)
+      end
+    end
+
+    self.contests.where(round: 1).each do |contest|
+      contest.won! if contest.lower.nil? && contest.upper
+    end
+  end
+
+  # Build first round contests without saving, to allow previewing first round.
+  # Also called by create_contests! when ready.
+  #
+  # @return [Array<Contest>]
+  def first_round_preview
+    contests = []
     seeded_competitors = self.competitors.ordered
 
-    _fraction, exponent = Math.frexp(seeded_competitors.length - 1)
-    full_rounds = exponent
+    _fraction, full_rounds = Math.frexp(seeded_competitors.length - 1)
     full_round_count = 2 ** full_rounds
 
     Tournament.round_indexes(full_rounds).each_with_index do |indexes, sort|
@@ -142,18 +162,10 @@ class Tournament < ApplicationRecord
         contest.lower = seeded_competitors[indexes[1]]
       end
 
-      contest.save!
+      contests << contest if contest.upper
     end
 
-    2.upto(full_rounds) do |round|
-      (2 ** (full_rounds - round)).times do |sort|
-        self.contests.create!(round: round, sort: sort)
-      end
-    end
-
-    self.contests.where(round: 1).each do |contest|
-      contest.won! if contest.lower.nil? && contest.upper
-    end
+    contests
   end
 
   def summary_contests
