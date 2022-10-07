@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_02_201819) do
+ActiveRecord::Schema.define(version: 2022_10_07_005928) do
 
-  create_table "announcements", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "announcements", charset: "latin1", force: :cascade do |t|
     t.string "subject", null: false
     t.text "details"
     t.string "link_text"
@@ -122,6 +122,8 @@ ActiveRecord::Schema.define(version: 2022_10_02_201819) do
     t.string "username", limit: 20
     t.string "email", limit: 100
     t.text "tokens"
+    t.string "instagram_handle"
+    t.string "twitter_handle"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

@@ -5,6 +5,8 @@ module Types
     field :id, ID, null: false
     field :login_code, String, null: true
     field :username, String, null: true
+    field :instagram_handle, String, null: true
+    field :twitter_handle, String, null: true
     field :tournament, Types::TournamentType, null: true do
       argument :id, ID, required: true
     end
