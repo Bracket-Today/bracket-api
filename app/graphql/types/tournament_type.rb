@@ -13,6 +13,7 @@ module Types
     field :round_duration, Int, null: false
     field :start_at, GraphQL::Types::ISO8601DateTime, null: true
     field :competitors, [Types::CompetitorType], null: false
+    field :owner, Types::UserInfoType, null: false
     field :rounds, [Types::RoundType], null: false
     field :round, Types::RoundType, null: true do
       argument :number, Int, required: false
