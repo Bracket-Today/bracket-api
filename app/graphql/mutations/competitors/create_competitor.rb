@@ -18,22 +18,22 @@ module Mutations
         restrict_tournament_status! tournament
 
         if entity.nil?
-          entity = Entity.new(name: name)
+          entity = Entity.new(name: name.strip)
           entity.set_path
         end
 
         if entity_annotation.present?
           if entity.annotation.blank?
-            entity.annotation = entity_annotation
+            entity.annotation = entity_annotation.strip
           elsif annotation.blank?
-            annotation = entity_annotation
+            annotation = entity_annotation.strip
           end
         end
 
         entity.save!
 
         competitor = tournament.competitors.new(entity: entity)
-        competitor.annotation = annotation if annotation.present?
+        competitor.annotation = annotation.strip if annotation.present?
         competitor.seed = tournament.competitors.count + 1
 
         create_resource :competitor, competitor
