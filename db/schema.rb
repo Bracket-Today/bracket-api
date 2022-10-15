@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_07_005928) do
+ActiveRecord::Schema.define(version: 2022_10_10_203744) do
 
   create_table "announcements", charset: "latin1", force: :cascade do |t|
     t.string "subject", null: false
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2022_10_07_005928) do
     t.integer "seed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "annotation", limit: 50
     t.index ["entity_id"], name: "index_competitors_on_entity_id"
     t.index ["tournament_id"], name: "index_competitors_on_tournament_id"
   end
@@ -72,6 +73,7 @@ ActiveRecord::Schema.define(version: 2022_10_07_005928) do
     t.text "url", size: :medium
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "annotation", limit: 50
     t.index ["name"], name: "index_entities_on_name", length: 20
     t.index ["path"], name: "index_entities_on_path", length: 20
   end

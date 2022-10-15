@@ -5,6 +5,7 @@ module Types
     field :id, ID, null: false
     field :tournament, Types::TournamentType, null: false
     field :entity, Types::EntityType, null: false
+    field :annotation, String, null: true
     field :seed, Int, null: true
     field :votes, [Types::VoteType], null: true
 
@@ -17,6 +18,5 @@ module Types
       end
       vote_array.join(" | ")
     end
-
   end
 end

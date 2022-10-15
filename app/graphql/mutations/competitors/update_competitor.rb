@@ -12,21 +12,29 @@ module Mutations
       argument :id, ID, required: true, loads: Types::CompetitorType,
         as: :competitor
       argument :name, String, required: true
+      argument :annotation, String, required: false
+      argument :entity_annotation, String, required: false
 
       field :competitor, Types::CompetitorType, null: true
       field :errors, [Types::UserError], null: false
 
-      def resolve competitor:, name:
+      def resolve competitor:, name:, annotation: nil, entity_annotation: nil
         restrict_tournament_status! competitor.tournament, statuses: ['Closed']
+        annotation = nil if annotation.blank?
 
         if competitor.shared_entity?
-          entity = Entity.new name: name
+          entity = Entity.new name: name, annotation: entity_annotation
           entity.set_path
           entity.save!
-          competitor.update! entity: entity
         else
+          if entity_annotation.present?
+            competitor.entity.annotation = entity_annotation
+          end
+
           competitor.entity.update! name: name
         end
+
+        competitor.update! annotation: annotation
 
         { competitor: competitor, errors: [] }
       end

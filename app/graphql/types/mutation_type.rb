@@ -17,6 +17,8 @@ module Types
       mutation: Mutations::Tournaments::DeleteTournament
     field :random_tournament_seeds,
       mutation: Mutations::Tournaments::RandomTournamentSeeds
+    field :schedule_tournament,
+      mutation: Mutations::Tournaments::ScheduleTournament
     field :update_tournament_visibility,
       mutation: Mutations::Tournaments::UpdateTournamentVisibility
 
