@@ -12,6 +12,7 @@ module Types
     end
     field :tournaments, [Types::TournamentType], null: false
     field :votes_count, Int, null: false
+    field :registered, GraphQL::Types::Boolean, null: false
 
     def tournament id:
       object.tournaments.find_by_id(id)
@@ -19,6 +20,10 @@ module Types
 
     def votes_count
       object.votes.count
+    end
+
+    def registered
+      object.email.present?
     end
   end
 end

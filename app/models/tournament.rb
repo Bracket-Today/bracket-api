@@ -5,6 +5,13 @@ class Tournament < ApplicationRecord
 
   class ContestsExistError < StandardError; end
 
+  DURATIONS = {
+    second: 1,
+    minute: 60,
+    hour: 3600,
+    day: 86400,
+  }
+
   scope :ready_to_activate, -> {
     where(status: 'Pending').where(Tournament[:start_at].lteq(Time.now))
   }
@@ -23,6 +30,7 @@ class Tournament < ApplicationRecord
   scope :seeds_required, -> { where status: ['Pending', 'Active', 'Closed'] }
 
   scope :featured, -> { where featured: true }
+  scope :visible, -> { where visibility: ['Can Feature', 'Public'] }
 
   belongs_to :owner, class_name: 'User', required: false
 
@@ -98,6 +106,17 @@ class Tournament < ApplicationRecord
     self.contests.count
   end
 
+  # @return [Integer] Quantity of round_duration_unit (e.g. 7200 => 2 (:hour))
+  def round_duration_quantity
+    round_duration / (DURATIONS[round_duration_unit] || 1)
+  end
+
+  # @return [Symbol] Largest unit that evenly divides round_duration
+  def round_duration_unit
+    DURATIONS.to_a.reverse.each do |unit, duration|
+      return unit if 0 == round_duration % duration
+    end
+  end
 
   # Ensure competitor seeds are 1..competitors.length. Orders competitors and
   # applies new seeds based on order. Intended to be called when tournament
@@ -172,6 +191,12 @@ class Tournament < ApplicationRecord
     self.contests.where(round: current_round_by_time).
       where.not(Contest[:lower_id].eq(nil)).
       limit(2)
+  end
+
+  # @return [Integer]
+  #   Duration in seconds from a quantity and accepted unit (@see DURATIONS)
+  def self.duration_in_seconds quantity, unit
+    quantity * (DURATIONS[unit] || 1)
   end
 
   def self.round_indexes total_rounds

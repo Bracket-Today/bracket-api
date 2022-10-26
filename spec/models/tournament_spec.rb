@@ -176,6 +176,41 @@ RSpec.describe Tournament, type: :model do
     end
   end
 
+  describe '#round_duration_unit and #round_duration_quantity' do
+    it 'gets best quantity and unit for round duration' do
+      expect(tournament.round_duration_quantity).to eq(1)
+      expect(tournament.round_duration_unit).to eq(:day)
+
+      tournament.round_duration = 10
+      expect(tournament.round_duration_quantity).to eq(10)
+      expect(tournament.round_duration_unit).to eq(:second)
+
+      tournament.round_duration = 120
+      expect(tournament.round_duration_quantity).to eq(2)
+      expect(tournament.round_duration_unit).to eq(:minute)
+
+      tournament.round_duration = 125
+      expect(tournament.round_duration_quantity).to eq(125)
+      expect(tournament.round_duration_unit).to eq(:second)
+
+      tournament.round_duration = 7200
+      expect(tournament.round_duration_quantity).to eq(2)
+      expect(tournament.round_duration_unit).to eq(:hour)
+
+      tournament.round_duration = 7260
+      expect(tournament.round_duration_quantity).to eq(121)
+      expect(tournament.round_duration_unit).to eq(:minute)
+
+      tournament.round_duration = 259200
+      expect(tournament.round_duration_quantity).to eq(3)
+      expect(tournament.round_duration_unit).to eq(:day)
+
+      tournament.round_duration = 266400
+      expect(tournament.round_duration_quantity).to eq(74)
+      expect(tournament.round_duration_unit).to eq(:hour)
+    end
+  end
+
   describe '#reseed!' do
     let!(:competitors) do
       tournament.save!
@@ -313,6 +348,15 @@ RSpec.describe Tournament, type: :model do
 
       it 'raises ContestsExistError' do
         expect { run }.to raise_error(Tournament::ContestsExistError)
+      end
+    end
+
+    describe '.duration_in_seconds' do
+      it 'converts duration based on units' do
+        expect(Tournament.duration_in_seconds(5, :second)).to eq(5)
+        expect(Tournament.duration_in_seconds(5, :minute)).to eq(300)
+        expect(Tournament.duration_in_seconds(5, :hour)).to eq(18000)
+        expect(Tournament.duration_in_seconds(5, :day)).to eq(432_000)
       end
     end
   end

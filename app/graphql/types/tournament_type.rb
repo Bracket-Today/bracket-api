@@ -11,6 +11,8 @@ module Types
     field :featured, GraphQL::Types::Boolean, null: false
     field :visibility, String, null: false
     field :round_duration, Int, null: false
+    field :round_duration_quantity, Int, null: false
+    field :round_duration_unit, Types::DurationUnit, null: false
     field :start_at, GraphQL::Types::ISO8601DateTime, null: true
     field :competitors, [Types::CompetitorType], null: false
     field :owner, Types::UserInfoType, null: false
