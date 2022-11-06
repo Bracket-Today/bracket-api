@@ -52,6 +52,10 @@ module Types
         relation = relation.active_and_recent
       end
 
+      if scopes.include?('visible')
+        relation = relation.visible
+      end
+
       relation
     end
 
