@@ -43,7 +43,7 @@ module Types
       relation = Tournament.all
 
       if scopes.include?('votable')
-        relation = relation.active.select do |tournament|
+        relation = relation.visible.active.select do |tournament|
           context[:current_user].should_vote? tournament: tournament
         end
       elsif scopes.include?('active')
