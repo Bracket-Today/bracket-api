@@ -71,7 +71,7 @@ class User < ApplicationRecord
   # @return [Tournament, nil]
   #   Tournament, if any, with open contest(s) where user has not voted.
   def next_tournament_to_vote
-    Tournament.active.detect do |tournament|
+    Tournament.active.visible.detect do |tournament|
       self.should_vote? tournament: tournament
     end
   end
