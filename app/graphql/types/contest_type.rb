@@ -23,7 +23,12 @@ module Types
     end
 
     def current_user_vote
-      object.votes.find_by(user_id: context[:current_user].id).try(:competitor)
+      if context[:current_user]
+        object.votes.find_by(user_id: context[:current_user].id).
+          try(:competitor)
+      else
+        nil
+      end
     end
   end
 end
