@@ -17,7 +17,7 @@ module Clockwork
     DataCheckJob.perform_later
   end
 
-  every 1.day, 'RemindersJob', at: '14:00' do
+  every 1.day, 'RemindersJob', at: '16:00' do
     RemindersJob.perform_later
   end
 

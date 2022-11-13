@@ -7,6 +7,7 @@ module Types
     field :username, String, null: true
     field :instagram_handle, String, null: true
     field :twitter_handle, String, null: true
+    field :daily_reminder, GraphQL::Types::Boolean, null: false
     field :tournament, Types::TournamentType, null: true do
       argument :id, ID, required: true
     end

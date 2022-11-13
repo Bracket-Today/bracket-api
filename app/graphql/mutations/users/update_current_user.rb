@@ -6,6 +6,7 @@ module Mutations
       argument :username, String, required: false
       argument :instagram_handle, String, required: false
       argument :twitter_handle, String, required: false
+      argument :daily_reminder, GraphQL::Types::Boolean, required: false
 
       field :user, Types::UserType, null: false
       field :errors, [Types::UserError], null: false
