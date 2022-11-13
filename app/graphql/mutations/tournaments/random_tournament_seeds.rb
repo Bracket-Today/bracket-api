@@ -5,18 +5,18 @@ module Mutations
     class RandomTournamentSeeds < Mutations::BaseMutation
       argument :id, ID, required: true, loads: Types::TournamentType,
         as: :tournament
+      argument :strength, String, required: false
 
       field :tournament, Types::TournamentType, null: true
       field :errors, [Types::UserError], null: false
 
-      def resolve tournament:
+      def resolve tournament:, strength: 'mild'
         restrict_tournament_status! tournament
 
-        Competitor.transaction do
-          tournament.competitors.shuffle.each_with_index do |competitor, index|
-            competitor.update!(seed: index + 1)
-          end
-        end
+        TournamentService::RandomizeSeeds.call(
+          tournament: tournament,
+          mild: ('mild' == strength)
+        )
 
         tournament.competitors.reload
         { tournament: tournament, error: [] }
