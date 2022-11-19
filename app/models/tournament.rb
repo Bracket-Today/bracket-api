@@ -21,7 +21,7 @@ class Tournament < ApplicationRecord
     where(
       Tournament[:status].eq('Active').or(
         Tournament[:status].eq('Closed').and(
-          Tournament[:start_at].gteq(15.days.ago)
+          Tournament[:start_at].gteq(24.days.ago)
         )
       )
     ).order(start_at: :desc, id: :desc)
