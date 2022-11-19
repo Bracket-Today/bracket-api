@@ -46,6 +46,11 @@ RSpec.describe Tournament, type: :model do
       subject { Tournament.featured }
       it { is_expected.to scope_as(tournaments, [3]) }
     end
+
+    describe '.upcoming' do
+      subject { Tournament.upcoming }
+      it { is_expected.to scope_as(tournaments, [3, 2]) }
+    end
   end
 
   it { is_expected.to validate_presence_of :name }

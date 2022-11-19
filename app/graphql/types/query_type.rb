@@ -50,6 +50,8 @@ module Types
         relation = relation.active
       elsif scopes.include?('activeAndRecent')
         relation = relation.active_and_recent
+      elsif scopes.include?('upcoming')
+        relation = relation.upcoming
       end
 
       if scopes.include?('visible')

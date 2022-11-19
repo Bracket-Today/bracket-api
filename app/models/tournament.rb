@@ -29,6 +29,10 @@ class Tournament < ApplicationRecord
 
   scope :seeds_required, -> { where status: ['Pending', 'Active', 'Closed'] }
 
+  scope :upcoming, -> {
+    where(status: 'Pending').order(featured: :desc, start_at: :asc)
+  }
+
   scope :featured, -> { where featured: true }
   scope :visible, -> { where visibility: ['Can Feature', 'Public'] }
 
