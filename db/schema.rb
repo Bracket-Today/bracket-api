@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_12_025540) do
+ActiveRecord::Schema.define(version: 2022_11_20_030928) do
 
   create_table "announcements", charset: "latin1", force: :cascade do |t|
     t.string "subject", null: false
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 2022_11_12_025540) do
     t.bigint "owner_id"
     t.boolean "featured", default: false, null: false
     t.column "visibility", "enum('Can Feature','Public','Private')", limit: ["Can Feature", "Public", "Private"], default: "Can Feature", null: false
+    t.text "notes"
     t.index ["name"], name: "index_tournaments_on_name", length: 20
     t.index ["owner_id"], name: "index_tournaments_on_owner_id"
   end
