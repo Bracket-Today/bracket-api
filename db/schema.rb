@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_20_030928) do
+ActiveRecord::Schema.define(version: 2022_11_24_025543) do
 
   create_table "announcements", charset: "latin1", force: :cascade do |t|
     t.string "subject", null: false
@@ -23,6 +23,18 @@ ActiveRecord::Schema.define(version: 2022_11_20_030928) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["start_at", "end_at"], name: "index_announcements_on_start_at_and_end_at"
+  end
+
+  create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "tournament_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "parent_id"
+    t.text "body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["parent_id"], name: "index_comments_on_parent_id"
+    t.index ["tournament_id"], name: "index_comments_on_tournament_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "competitors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -145,6 +157,9 @@ ActiveRecord::Schema.define(version: 2022_11_20_030928) do
     t.index ["user_id"], name: "index_votes_on_user_id"
   end
 
+  add_foreign_key "comments", "comments", column: "parent_id"
+  add_foreign_key "comments", "tournaments"
+  add_foreign_key "comments", "users"
   add_foreign_key "competitors", "entities"
   add_foreign_key "competitors", "tournaments", on_delete: :cascade
   add_foreign_key "contests", "competitors", column: "lower_id"
