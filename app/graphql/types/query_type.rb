@@ -68,5 +68,11 @@ module Types
     def tournament id:
       ShortCode.resource(id, type: 'Tournament') || Tournament.find_by_id(id)
     end
+
+    field :videos, [Types::VideoType], null: false
+
+    def videos
+      Video.display_subset
+    end
   end
 end

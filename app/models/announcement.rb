@@ -16,7 +16,7 @@ class Announcement < ApplicationRecord
   validates :subject, presence: true
 
   # Get active announcements marked always show plus one other active
-  # announcement (if any available). Used for getting a set of announcments to
+  # announcement (if any available). Used for getting a set of announcements to
   # display on the home page.
   #
   # @return [Array<Announcement>]
