@@ -38,6 +38,7 @@ class Tournament < ApplicationRecord
 
   belongs_to :owner, class_name: 'User', required: false
 
+  has_many :comments
   has_many :competitors, dependent: :destroy
   has_many :contests
   has_many :votes, through: :contests
