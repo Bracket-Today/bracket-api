@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_24_205609) do
+ActiveRecord::Schema.define(version: 2022_11_26_195721) do
 
   create_table "announcements", charset: "latin1", force: :cascade do |t|
     t.string "subject", null: false
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_205609) do
     t.bigint "tournament_id", null: false
     t.bigint "user_id", null: false
     t.bigint "parent_id"
-    t.text "body"
+    t.text "body", size: :medium
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["parent_id"], name: "index_comments_on_parent_id"
@@ -88,6 +88,12 @@ ActiveRecord::Schema.define(version: 2022_11_24_205609) do
     t.string "annotation", limit: 50
     t.index ["name"], name: "index_entities_on_name", length: 20
     t.index ["path"], name: "index_entities_on_path", length: 20
+  end
+
+  create_table "settings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.column "comments_status", "enum('disabled','enabled','read-only')", limit: ["disabled", "enabled", "read-only"], default: "disabled", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "short_codes", charset: "latin1", force: :cascade do |t|
