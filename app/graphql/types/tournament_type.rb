@@ -15,6 +15,9 @@ module Types
     field :round_duration_quantity, Int, null: false
     field :round_duration_unit, Types::DurationUnit, null: false
     field :start_at, GraphQL::Types::ISO8601DateTime, null: true
+    field :comments, [Types::CommentType], null: false do
+      argument :scopes, [String], required: false
+    end
     field :competitors, [Types::CompetitorType], null: false
     field :owner, Types::UserInfoType, null: false
     field :rounds, [Types::RoundType], null: false
@@ -47,6 +50,14 @@ module Types
 
     def competitors
       object.competitors.ordered
+    end
+
+    def comments scopes: []
+      retval = object.comments
+      if scopes.include?('root')
+        retval = retval.root
+      end
+      retval.ordered
     end
   end
 end
