@@ -33,6 +33,10 @@ module Types
     field :current_user_should_vote, GraphQL::Types::Boolean, null: false
     field :current_user_next_tournament, Types::TournamentType, null: true
     field :first_round_preview, [Types::ContestType], null: false
+    field :view_comments, GraphQL::Types::Boolean, null: false,
+      method: :view_comments?
+    field :make_comments, GraphQL::Types::Boolean, null: false,
+      method: :make_comments?
 
     def current_user_voted_winner_count
       object.votes.where(user_id: context[:current_user].try(:id)).
@@ -53,6 +57,8 @@ module Types
     end
 
     def comments scopes: []
+      return [] unless object.view_comments?
+
       retval = object.comments
       if scopes.include?('root')
         retval = retval.root

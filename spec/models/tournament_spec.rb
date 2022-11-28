@@ -357,6 +357,36 @@ RSpec.describe Tournament, type: :model do
       end
     end
 
+    describe '#view_comments?' do
+      it 'returns whether comments can be viewed' do
+        expect(tournament.view_comments?).to be(false)
+        Setting.active.update(comments_status: 'read-only')
+        expect(tournament.view_comments?).to be(true)
+        Setting.active.update(comments_status: 'enabled')
+        expect(tournament.view_comments?).to be(true)
+
+        tournament.comments_status = 'read-only'
+        expect(tournament.view_comments?).to be(true)
+        tournament.comments_status = 'disabled'
+        expect(tournament.view_comments?).to be(false)
+      end
+    end
+
+    describe '#make_comments?' do
+      it 'returns whether comments can be created (and potentially edited)' do
+        expect(tournament.make_comments?).to be(false)
+        Setting.active.update(comments_status: 'read-only')
+        expect(tournament.make_comments?).to be(false)
+        Setting.active.update(comments_status: 'enabled')
+        expect(tournament.make_comments?).to be(true)
+
+        tournament.comments_status = 'read-only'
+        expect(tournament.make_comments?).to be(false)
+        tournament.comments_status = 'disabled'
+        expect(tournament.make_comments?).to be(false)
+      end
+    end
+
     describe '.duration_in_seconds' do
       it 'converts duration based on units' do
         expect(Tournament.duration_in_seconds(5, :second)).to eq(5)

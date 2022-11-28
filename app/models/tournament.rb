@@ -198,6 +198,24 @@ class Tournament < ApplicationRecord
       limit(2)
   end
 
+  # @return [Boolean]
+  #   Are comments visible? Either tournament or system-wide settings can
+  #   disable.
+  def view_comments?
+    return false if 'disabled' == self.comments_status
+    return false if 'disabled' == Setting.active.comments_status
+
+    return true
+  end
+
+  # @return [Boolean]
+  #   Can comments be created? Both tournament and system-wide settings must be
+  #   enabled
+  def make_comments?
+    'enabled' == self.comments_status &&
+      'enabled' == Setting.active.comments_status
+  end
+
   # @return [Integer]
   #   Duration in seconds from a quantity and accepted unit (@see DURATIONS)
   def self.duration_in_seconds quantity, unit
