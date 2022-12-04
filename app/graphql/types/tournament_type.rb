@@ -7,6 +7,7 @@ module Types
     field :full_path, String, null: false
     field :name, String, null: false
     field :notes, String, null: true
+    field :based_on, Types::TournamentType, null: true
     field :status, String, null: false
     field :current_round_by_time, Int, null: false
     field :featured, GraphQL::Types::Boolean, null: false

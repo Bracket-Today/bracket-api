@@ -36,6 +36,7 @@ class Tournament < ApplicationRecord
   scope :featured, -> { where featured: true }
   scope :visible, -> { where visibility: ['Can Feature', 'Public'] }
 
+  belongs_to :based_on, class_name: 'Tournament', required: false
   belongs_to :owner, class_name: 'User', required: false
 
   has_many :comments

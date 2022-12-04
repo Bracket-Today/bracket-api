@@ -57,6 +57,7 @@ RSpec.describe Tournament, type: :model do
   it { is_expected.to validate_presence_of :round_duration }
   it { is_expected.to validate_presence_of :status }
 
+  it { is_expected.to belong_to(:based_on).class_name('Tournament').optional }
   it { is_expected.to belong_to(:owner).class_name('User').optional }
 
   describe '#competitors' do

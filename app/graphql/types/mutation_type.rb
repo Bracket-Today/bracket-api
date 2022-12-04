@@ -23,6 +23,8 @@ module Types
       mutation: Mutations::Tournaments::UpdateTournament
     field :update_tournament_visibility,
       mutation: Mutations::Tournaments::UpdateTournamentVisibility
+    field :clone_tournament,
+      mutation: Mutations::Tournaments::CloneTournament
 
     field :submit_vote, mutation: Mutations::Contests::SubmitVote
     field :clear_vote, mutation: Mutations::Contests::ClearVote
