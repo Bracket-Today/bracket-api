@@ -5,7 +5,7 @@ require_relative './boot'
 require_relative './environment'
 
 module Clockwork
-  error_handler do |error|
+  error_handler do |exception|
     PtiIssues.handle_exception exception: exception
   end
 
