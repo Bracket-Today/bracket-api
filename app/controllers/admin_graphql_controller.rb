@@ -2,6 +2,12 @@
 
 class AdminGraphqlController < GraphqlController
   def execute
+    current_user = gql_devise_context(User)[:current_resource]
+
+    unless current_user && current_user.admin?
+      head :unauthorized and return
+    end
+
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]

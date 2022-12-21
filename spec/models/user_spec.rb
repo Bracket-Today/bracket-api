@@ -78,6 +78,34 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#admin?' do
+    subject { user.admin? }
+
+    context 'unconfirmed' do
+      it { is_expected.to be(false) }
+
+      context 'even if role is Admin' do
+        before(:each) { user.role = 'Admin' }
+
+        it { is_expected.to be(false) }
+      end
+    end
+
+    context 'confirmed' do
+      before(:each) { user.confirmed_at = Time.now }
+
+      context 'role is not Admin' do
+        it { is_expected.to be(false) }
+      end
+
+      context 'role is Admin' do
+        before(:each) { user.role = 'Admin' }
+
+        it { is_expected.to be(true) }
+      end
+    end
+  end
+
   describe '#should_vote?' do
     subject { user.should_vote? }
 

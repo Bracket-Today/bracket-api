@@ -44,6 +44,11 @@ class User < ApplicationRecord
     code
   end
 
+  # @return [Boolean] Is user confirmed and has admin role?
+  def admin?
+    self.confirmed? && 'Admin' == self.role
+  end
+
   # Determine whether the user should vote in a given context, meaning that
   # there is a contest within the contest on which this user can vote but has
   # not. If given no arguments, checks against all contests in all active
