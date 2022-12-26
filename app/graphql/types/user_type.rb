@@ -24,7 +24,7 @@ module Types
     end
 
     def registered
-      object.email.present?
+      object.confirmed?
     end
   end
 end

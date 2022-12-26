@@ -9,6 +9,9 @@ module Types
     field :update_competitor,
       mutation: Mutations::Competitors::UpdateCompetitor
 
+    field :create_comment,
+      mutation: Mutations::Comments::CreateComment
+
     field :create_tournament,
       mutation: Mutations::Tournaments::CreateTournament
     field :update_tournament_seeds,
