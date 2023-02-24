@@ -81,6 +81,7 @@ RSpec.describe Tournament, type: :model do
 
   it { is_expected.to have_many :comments }
   it { is_expected.to have_many :contests }
+  it { is_expected.to have_many :external_links }
   it { is_expected.to have_many :short_codes }
 
   describe '#short_code' do

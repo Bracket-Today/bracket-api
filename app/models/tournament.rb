@@ -42,6 +42,7 @@ class Tournament < ApplicationRecord
   has_many :comments
   has_many :competitors, dependent: :destroy
   has_many :contests
+  has_many :external_links, as: :owner
   has_many :votes, through: :contests
 
   validates :name, :round_duration, :status, presence: true

@@ -14,11 +14,14 @@ module Mutations
       argument :name, String, required: true
       argument :annotation, String, required: false
       argument :entity_annotation, String, required: false
+      argument :url, String, required: false
 
       field :competitor, Types::CompetitorType, null: true
       field :errors, [Types::UserError], null: false
 
-      def resolve competitor:, name:, annotation: nil, entity_annotation: nil
+      def resolve competitor:, name:, annotation: nil, entity_annotation: nil,
+        url: nil
+
         restrict_tournament_status! competitor.tournament, statuses: ['Closed']
         annotation = nil if annotation.blank?
 
@@ -35,6 +38,10 @@ module Mutations
         end
 
         competitor.update! annotation: annotation
+
+        if url.present?
+          competitor.entity.external_links.create! url: url
+        end
 
         { competitor: competitor, errors: [] }
       end

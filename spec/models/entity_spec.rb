@@ -20,6 +20,7 @@ RSpec.describe Entity, type: :model do
   it { is_expected.to validate_presence_of :path }
 
   it { is_expected.to have_many :competitors }
+  it { is_expected.to have_many :external_links }
 
   describe '#set_path' do
     subject { entity.path }

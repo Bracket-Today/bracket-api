@@ -7,5 +7,6 @@ module Types
     field :path, String, null: false
     field :annotation, String, null: true
     field :url, String, null: true
+    field :external_links, [Types::ExternalLinkType], null: false
   end
 end

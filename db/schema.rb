@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_17_175358) do
+ActiveRecord::Schema.define(version: 2022_12_26_024209) do
 
   create_table "announcements", charset: "latin1", force: :cascade do |t|
     t.string "subject", null: false
@@ -88,6 +88,17 @@ ActiveRecord::Schema.define(version: 2022_12_17_175358) do
     t.string "annotation", limit: 50
     t.index ["name"], name: "index_entities_on_name", length: 20
     t.index ["path"], name: "index_entities_on_path", length: 20
+  end
+
+  create_table "external_links", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.column "owner_type", "enum('Competitor','Entity','Tournament')", limit: ["Competitor", "Entity", "Tournament"], null: false
+    t.bigint "owner_id", null: false
+    t.column "type", "enum('Other','YouTube','Amazon','Image','Video')", limit: ["Other", "YouTube", "Amazon", "Image", "Video"], default: "Other", null: false
+    t.string "short_code"
+    t.text "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["owner_type", "owner_id"], name: "index_external_links_on_owner_type_and_owner_id"
   end
 
   create_table "settings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
