@@ -4,6 +4,8 @@ module Types
 
     field :create_competitor,
       mutation: Mutations::Competitors::CreateCompetitor
+    field :create_competitors,
+      mutation: Mutations::Competitors::CreateCompetitors
     field :remove_competitor,
       mutation: Mutations::Competitors::RemoveCompetitor
     field :update_competitor,
