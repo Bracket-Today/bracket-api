@@ -2,6 +2,14 @@
 
 class Tournament < ApplicationRecord
   include HasShortCode
+  include Searchable
+
+  __elasticsearch__.index_name "bracket-#{Rails.env}-tournaments"
+  __elasticsearch__.settings index: { number_of_shards: 1 } do
+    mappings dynamic: 'false' do
+      indexes :name, analyzer: 'english'
+    end
+  end
 
   class ContestsExistError < StandardError; end
 
@@ -35,6 +43,7 @@ class Tournament < ApplicationRecord
 
   scope :featured, -> { where featured: true }
   scope :visible, -> { where visibility: ['Can Feature', 'Public'] }
+  scope :searchable, -> { visible.where.not(status: 'Building') }
 
   belongs_to :based_on, class_name: 'Tournament', required: false
   belongs_to :owner, class_name: 'User', required: false

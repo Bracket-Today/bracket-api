@@ -33,6 +33,14 @@ module Types
       User.uuid.find_by_login_code(code)
     end
 
+    field :search, [Types::TournamentType], null: false do
+      argument :term, String, required: true
+    end
+
+    def search term:
+      Tournament.search(term).records.searchable
+    end
+
     field :tournaments, [Types::TournamentType], null: false do
       argument :scopes, [String], required: false
     end
