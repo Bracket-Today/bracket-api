@@ -20,7 +20,6 @@ module CompetitorService
 
       if @entity.nil?
         @entity = Entity.new(name: @name.strip)
-        @entity.set_path
       end
 
       if @entity_annotation.present?

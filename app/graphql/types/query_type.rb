@@ -25,6 +25,14 @@ module Types
       Entity.where(Entity[:name].matches("%#{term}%")).limit(limit)
     end
 
+    field :entity, Types::EntityType, null: true do
+      argument :id, ID, required: true
+    end
+
+    def entity id:
+      ShortCode.resource(id, type: 'Entity') || Entity.find_by_id(id)
+    end
+
     field :login_code, Types::LoginCodeType, null: true do
       argument :code, String, required: true
     end
@@ -33,12 +41,12 @@ module Types
       User.uuid.find_by_login_code(code)
     end
 
-    field :search, [Types::TournamentType], null: false do
+    field :search, [Types::SearchResultUnion], null: false do
       argument :term, String, required: true
     end
 
     def search term:
-      Tournament.search(term).records.searchable
+      SearchService::Default.call(term: term)
     end
 
     field :tournaments, [Types::TournamentType], null: false do

@@ -10,4 +10,9 @@ module Searchable
       include Elasticsearch::Model::Callbacks
     end
   end
+
+  def as_indexed_json options={}
+    { typename: self.class.name }.
+      merge(self.as_json(options.merge(root: false)))
+  end
 end

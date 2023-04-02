@@ -26,9 +26,9 @@ module Mutations
         annotation = nil if annotation.blank?
 
         if competitor.shared_entity?
-          entity = Entity.new name: name, annotation: entity_annotation
-          entity.set_path
-          entity.save!
+          competitor.entity = Entity.create!(
+            name: name, annotation: entity_annotation
+          )
         else
           if entity_annotation.present?
             competitor.entity.annotation = entity_annotation

@@ -27,17 +27,11 @@ module TournamentService
         tournament_data['entries'].each_with_index do |entity_data, seed|
           if entity_data.is_a?(String)
             name = entity_data
-            slug = entity_data.downcase.gsub(/[^\w\s]/, '').gsub(/\s+/, '-')
           else
             name = entity_data['name']
-            slug = entity_data['slug']
           end
 
-          path = "#{tournament_data['prefix']}/#{slug}"
-
-          entity = Entity.where(path: path).first || Entity.new
-          entity.name = name
-          entity.path = path
+          entity = Entity.where(name: name).first || Entity.new(name: name)
 
           entity.save!
 

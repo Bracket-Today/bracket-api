@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_26_024209) do
+ActiveRecord::Schema.define(version: 2023_04_02_005801) do
 
   create_table "announcements", charset: "latin1", force: :cascade do |t|
     t.string "subject", null: false
@@ -81,13 +81,10 @@ ActiveRecord::Schema.define(version: 2022_12_26_024209) do
 
   create_table "entities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
-    t.string "path", null: false
-    t.text "url", size: :medium
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "annotation", limit: 50
     t.index ["name"], name: "index_entities_on_name", length: 20
-    t.index ["path"], name: "index_entities_on_path", length: 20
   end
 
   create_table "external_links", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

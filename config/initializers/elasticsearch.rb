@@ -2,8 +2,8 @@
 
 require 'faraday_middleware/aws_sigv4'
 
-Rails.application.config.search_enabled =
-  Rails.env.production? || 'enabled' == ENV['SEARCH']
+Rails.application.config.search_enabled = Rails.env.test? ? false :
+  (Rails.env.production? || 'enabled' == ENV['SEARCH'])
 
 config = Rails.application.credentials.elasticsearch || {}
 options = config.merge(log: true)

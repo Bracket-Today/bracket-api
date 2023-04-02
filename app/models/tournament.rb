@@ -8,6 +8,7 @@ class Tournament < ApplicationRecord
   __elasticsearch__.settings index: { number_of_shards: 1 } do
     mappings dynamic: 'false' do
       indexes :name, analyzer: 'english'
+      indexes :typename
     end
   end
 

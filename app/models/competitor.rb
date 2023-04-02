@@ -2,6 +2,7 @@
 
 class Competitor < ApplicationRecord
   scope :ordered, -> { order :seed, :id }
+  scope :searchable, -> { joins(:tournament).merge(Tournament.searchable) }
 
   belongs_to :entity
   belongs_to :tournament
