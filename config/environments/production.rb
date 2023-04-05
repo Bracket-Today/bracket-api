@@ -57,7 +57,11 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.smtp_settings = Rails.application.credentials.smtp
+  config.action_mailer.delivery_method = :sendgrid_actionmailer
+  config.action_mailer.sendgrid_actionmailer_settings = {
+    api_key: Rails.application.credentials.dig(:sendgrid, :key),
+    raise_delivery_errors: true
+  }
 
   config.action_mailer.default_url_options = {
     schema: 'https', host: 'bracket.today'

@@ -33,6 +33,7 @@ gem 'faraday_middleware-aws-sigv4'
 gem 'graphql'
 gem 'graphql_devise'
 gem 'rack-cors'
+gem 'sendgrid-actionmailer'
 gem 'twitter'
 
 group :development, :test do

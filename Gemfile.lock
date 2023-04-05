@@ -322,6 +322,12 @@ GEM
       rspec-support (~> 3.10)
     rspec-support (3.11.0)
     ruby2_keywords (0.0.5)
+    ruby_http_client (3.5.5)
+    sendgrid-actionmailer (3.2.0)
+      mail (~> 2.7)
+      sendgrid-ruby (~> 6.4)
+    sendgrid-ruby (6.6.2)
+      ruby_http_client (~> 3.4)
     shellany (0.0.1)
     shoulda-matchers (5.1.0)
       activesupport (>= 5.2.0)
@@ -396,6 +402,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 6.1.4, >= 6.1.4.6)
   rspec-rails (~> 5.0.0)
+  sendgrid-actionmailer
   shoulda-matchers
   twitter
   tzinfo-data
