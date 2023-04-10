@@ -234,7 +234,7 @@ class Tournament < ApplicationRecord
     elsif 'Active' == self.status
       "Round #{self.current_round_by_time}"
     elsif 'Pending' == self.status
-      "Starts #{self.start_at.in_time_zone('US/Eastern').stftime('%b %e')}"
+      "Starts #{self.start_at.in_time_zone('US/Eastern').strftime('%b %e')}"
     else
       self.status
     end
