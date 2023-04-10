@@ -38,6 +38,7 @@ module Types
       method: :view_comments?
     field :make_comments, GraphQL::Types::Boolean, null: false,
       method: :make_comments?
+    field :status_detail, String, null: false
 
     def current_user_voted_winner_count
       object.votes.where(user_id: context[:current_user].try(:id)).

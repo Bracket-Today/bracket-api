@@ -228,6 +228,18 @@ class Tournament < ApplicationRecord
       'enabled' == Setting.active.comments_status
   end
 
+  def status_detail
+    if 'Closed' == self.status
+      "Winner: #{self.summary_contests.first.winner.entity.name}"
+    elsif 'Active' == self.status
+      "Round #{self.current_round_by_time}"
+    elsif 'Pending' == self.status
+      "Starts #{self.start_at.in_time_zone('US/Eastern').stftime('%b %e')}"
+    else
+      self.status
+    end
+  end
+
   # @return [Integer]
   #   Duration in seconds from a quantity and accepted unit (@see DURATIONS)
   def self.duration_in_seconds quantity, unit
