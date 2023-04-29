@@ -9,6 +9,7 @@ module TwitterService
     end
 
     def call
+      return # Disabled due to auth error
       if @force || Rails.env.production?
         credentials = Rails.application.credentials
 
