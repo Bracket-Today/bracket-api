@@ -51,6 +51,17 @@ RSpec.describe Tournament, type: :model do
       subject { Tournament.upcoming }
       it { is_expected.to scope_as(tournaments, [3, 2]) }
     end
+
+    describe '.clone_suggestions' do
+      subject { Tournament.clone_suggestions }
+
+      before(:each) do
+        closed = FactoryBot.create(:tournament, status: 'Closed')
+        tournaments[0].update!(based_on: closed)
+      end
+
+      it { is_expected.to scope_as(tournaments, [5]) }
+    end
   end
 
   it { is_expected.to validate_presence_of :name }

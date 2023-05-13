@@ -36,6 +36,8 @@ class Tournament < ApplicationRecord
     ).order(start_at: :desc, id: :desc)
   }
 
+  scope :seeding, -> { where status: 'Seeding' }
+
   scope :seeds_required, -> { where status: ['Pending', 'Active', 'Closed'] }
 
   scope :upcoming, -> {
@@ -45,6 +47,13 @@ class Tournament < ApplicationRecord
   scope :featured, -> { where featured: true }
   scope :visible, -> { where visibility: ['Can Feature', 'Public'] }
   scope :searchable, -> { visible.where.not(status: 'Building') }
+
+  scope :clone_suggestions, -> {
+    tournaments = where(status: 'Closed').
+      select { |tournament| Tournament.where(based_on: tournament).empty? }
+
+    where(id: tournaments.pluck(:id)).order(:start_at).ordered
+  }
 
   belongs_to :based_on, class_name: 'Tournament', required: false
   belongs_to :owner, class_name: 'User', required: false

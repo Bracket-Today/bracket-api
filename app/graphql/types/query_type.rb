@@ -66,6 +66,8 @@ module Types
         relation = relation.active
       elsif scopes.include?('activeAndRecent')
         relation = relation.active_and_recent
+      elsif scopes.include?('seeding')
+        relation = relation.seeding
       elsif scopes.include?('upcoming')
         relation = relation.upcoming
       end
